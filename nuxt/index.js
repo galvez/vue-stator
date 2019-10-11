@@ -6,6 +6,8 @@ export default function (options = {}) {
   options = Object.assign(options, this.options.stator || {})
   const baseDirName = options.baseDir || 'store'
   const baseDir = join(this.options.srcDir, baseDirName)
+  // Disable Vuex store
+  this.options.features.store = false
   this.addPlugin({
     src: resolve(__dirname, 'plugin.js'),
     fileName: join(baseDirName, 'vue-stator/plugin.js'),
