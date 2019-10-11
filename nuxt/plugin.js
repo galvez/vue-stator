@@ -1,4 +1,15 @@
+import {
+  createStore,
+  registerGetters,
+  registerActions
+} from 'vue-stator'
 
+<% for (const namespace of options.actions) { %>
+<% } %>
+
+<% for (const namespace of options.getters) { %>
+<% } %>
+  
 export default async function (ctx, inject) {
   const hydrate = (initialState) => {
     return process.client 
@@ -12,9 +23,9 @@ export default async function (ctx, inject) {
     ctx.ssrContext.nuxt.$state = ctx.$state
   }
 
-  ctx.$getters = registerGetters(ctx, { ...globalGetters, ...moduleGetters })
+  ctx.$getters = registerGetters(ctx, { ...globalGetters, ...getters })
   inject('getters', ctx.$getters)
 
-  ctx.$actions = registerActions(ctx, { ...globalActions, ...moduleActions })
+  ctx.$actions = registerActions(ctx, { ...globalActions, ...actions })
   inject('actions', ctx.$actions)
 }
