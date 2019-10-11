@@ -7,6 +7,8 @@ See documentation for
 or
 [Nuxt.js](https://github.com/galvez/vue-stator/blob/master/docs/nuxt.md).
 
+_Stator is the stationary part of the [rotary system](https://en.wikipedia.org/wiki/Rotary_system)_ - thanks to [@pimlie](https://github.com/pimlie) for the awesome name suggestion.
+
 ## No more mutations
 
 `vue-stator` uses `Vue.observable()` under the hood, which means assignments and
