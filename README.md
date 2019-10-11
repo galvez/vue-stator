@@ -47,6 +47,8 @@ In practice, this just means you can define **module actions** that take
 the state key corresponding to the module.
 
 ```
+import VueStator from 'vue-stator'
+
 Vue.use(VueStator, {
   state: () => ({
     auth: {
@@ -84,6 +86,8 @@ available in a similar fashion. The arguments passed to getter functions have
 the exact same signature as Vuex.
 
 ```
+import VueStator from 'vue-stator'
+
 Vue.use(VueStator, {
   state: () => ({
     user: {
@@ -100,3 +104,12 @@ Vue.use(VueStator, {
   }
 }
 ```
+
+## Nuxt.js module
+
+Using vue-stator with Nuxt.js is as easy as using it with Vuex: a store
+will be automatically created by loading files placed in a conventional 
+locations, such as `store/state.js`.
+
+See full documentation for the Nuxt.js
+[module here](https://github.com/galvez/vue-stator/blob/master/docs/nuxt.md).
