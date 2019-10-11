@@ -85,8 +85,9 @@ In Nuxt.js, the first argument also gives you access to everything available in
 Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
 using `@nuxt/http`.
 
-> **Beware**: in Vuex, dispatching actions will always return a `Promise`. In 
-> `vue-stator`, that's optional. If you have code that expects an action to
+> **Beware**: in Vuex, dispatching actions will always return a `Promise`.
+> 
+> In `vue-stator`, that's optional. If you have code that expects an action to
 > return a Promise (by following it with `.then()`, for instance), make sure to
 > return `Promise.resolve()` instead. **Or**, you can also simply switch to
 > `async/await` syntax and it will work just fine (without `.then()`).
