@@ -33,7 +33,9 @@ const getters = {}
 
 <% for (const sModule of options.statorModules) { %>
 Object.assign(actions, _stator_<%= sModule.namespace %>_actions)
+<% if (sModule.getters) { %>
 Object.assign(getters, _stator_<%= sModule.namespace %>_getters)
+<% } %>
 <% } %>
   
 export default async function (ctx, inject) {
