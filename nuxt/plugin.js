@@ -4,10 +4,17 @@ import {
   registerActions
 } from 'vue-stator'
 
-<% for (const namespace of options.actions) { %>
+<% for (const sModule of options.statorModules) { %>
+import _stator_<%= sModule.namespace %>_actions from '<%= sModule.actions %>'
+import _stator_<%= sModule.namespace %>_getters from '<%= sModule.getters %>'
 <% } %>
 
-<% for (const namespace of options.getters) { %>
+const actions = {}
+const getters = {}
+
+<% for (const sModule of options.statorModules) { %>
+Object.assign(actions, _stator_<%= sModule.namespace %>_actions)
+Object.assign(getters, _stator_<%= sModule.namespace %>_getters)
 <% } %>
   
 export default async function (ctx, inject) {
