@@ -1,6 +1,24 @@
 
-import { existsSync } from 'fs'
+import { existsSync, readdirSync } from 'fs'
 import { join, resolve } from 'path'
+
+function loadStatorModules (baseDir) {
+  return readdirSync(baseDir)
+    .filter(p => !(['actions.js', 'getters.js', 'index.js'].includes(p)))
+    .map((p) => {
+      if (p.endsWith('.js')) {
+        return { actions: p }
+      }
+      const statorModule = {}
+      if (existsSync(join(baseDir, p, 'actions.js'))) {
+        statorModule.actions = join(p, 'actions.js')
+      }
+      if (existsSync(join(baseDir, p, 'getters.js'))) {
+        statorModule.getters = join(p, 'getters.js')
+      }
+      return statorModule
+    })
+}
 
 export default function (options = {}) {
   options = Object.assign(options, this.options.stator || {})
@@ -15,6 +33,7 @@ export default function (options = {}) {
       baseDir,
       localStorage: options.localStorage,
       sessionStorage: options.sessionStorage,
+      statorModules: loadStatorModules(baseDir),
       hasGlobalActions: existsSync(join(baseDir, 'actions.js')),
       hasGlobalGetters: existsSync(join(baseDir, 'getters.js'))
     }
