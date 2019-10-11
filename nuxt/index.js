@@ -30,7 +30,7 @@ export default function (options = {}) {
   this.options.features.store = false
   this.addPlugin({
     src: resolve(__dirname, 'plugin.js'),
-    fileName: join(baseDirName, 'vue-stator/plugin.js'),
+    fileName: 'vue-stator/plugin.js',
     options: {
       baseDir: baseDirName,
       localStorage: options.localStorage,

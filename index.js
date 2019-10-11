@@ -142,9 +142,11 @@ export async function createStore ({
     ctx.$state = Vue.observable(initialState)
   }
   if (getters) {
+    ctx.$getters = {}
     registerGetters(ctx, getters)
   }
   if (actions) {
+    ctx.$actions = {}
     registerActions(ctx, actions)
   }
 }
@@ -165,6 +167,7 @@ export function registerGetters (ctx, getters) {
       get: () => getters[key](ctx.$state, ctx.$getters)
     })
   }
+  return ctx.$getters
 }
 
 export function registerActions (ctx, actions) {
@@ -181,6 +184,7 @@ export function registerActions (ctx, actions) {
       return actions[key](ctx, ctx.$state, ...args)
     }
   }
+  return ctx.$actions
 }
 
 // Vanilla Installer

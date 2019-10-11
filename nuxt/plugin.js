@@ -1,12 +1,16 @@
+import Vue from 'vue'
+
 import {
   createStore,
   registerGetters,
   registerActions
-} from 'vue-stator'
+} from '../../../index'
 
 const globalActions = {}
 const globalGetters = {}
 
+import state from '~/<%= options.baseDir %>/state'
+  
 <% if (options.hasGlobalActions) { %>
 import * as _stator_actions from '~/<%= options.baseDir %>/actions'
 Object.assign(globalActions, _stator_actions)
@@ -39,15 +43,20 @@ export default async function (ctx, inject) {
       : Vue.observable(initialState)
   }
 
-  createStore({ ctx, hydrate })
+  await createStore({ ctx, state, hydrate })
+  inject('state', ctx.$state)
 
   if (ctx.ssrContext) {
     ctx.ssrContext.nuxt.$state = ctx.$state
   }
 
   ctx.$actions = registerActions(ctx, { ...globalActions, ...actions })
-  inject('actions', ctx.$actions)
+  if (ctx.$actions) {
+    inject('actions', ctx.$actions)
+  }
 
   ctx.$getters = registerGetters(ctx, { ...globalGetters, ...getters })
-  inject('getters', ctx.$getters)
+  if (ctx.$getters) {
+    inject('getters', ctx.$getters)
+  }
 }
