@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import consola from 'consola'
-import $get from 'lodash/get'
+import $get from 'lodash.get'
 
 // Internal utilities
 
@@ -103,6 +103,14 @@ export function mapActions (namespace, properties) {
 }
 
 export function mapGetters (namespace, getters) {
+  if (Array.isArray(namespace)) {
+    return namespace.reduce((mapped, getter) => {
+      mapped[getter] = function () {
+        return this.$getters[getter]
+      }
+      return mapped
+    }, {})
+  }
   return getters.reduce((mapped, getter) => {
     mapped[getter] = function () {
       return this.$getters[namespace][getter]
