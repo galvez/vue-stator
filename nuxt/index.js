@@ -33,6 +33,7 @@ export default function (options = {}) {
     src: resolve(__dirname, 'plugin.js'),
     fileName: 'vue-stator/plugin.js',
     options: {
+      isSPA: this.options.mode === 'spa',
       baseDir: baseDirName,
       localStorage: options.localStorage,
       sessionStorage: options.sessionStorage,
