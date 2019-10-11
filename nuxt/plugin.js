@@ -5,8 +5,8 @@ import {
 } from 'vue-stator'
 
 <% for (const sModule of options.statorModules) { %>
-import _stator_<%= sModule.namespace %>_actions from '<%= sModule.actions %>'
-import _stator_<%= sModule.namespace %>_getters from '<%= sModule.getters %>'
+import _stator_<%= sModule.namespace %>_actions from '~/<%= options.baseDir %>/<%= sModule.actions %>'
+import _stator_<%= sModule.namespace %>_getters from '~/<%= options.baseDir %>/<%= sModule.getters %>'
 <% } %>
 
 const actions = {}

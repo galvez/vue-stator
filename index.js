@@ -129,10 +129,6 @@ export async function createStore ({
   sessionStorage
 }) {
   const initialState = await state(ctx)
-  // Determine possible namespaces
-  ctx._stator_namespaces = Object.entries(initialState)
-    .filter(([_, value]) => _isPureObject(value))
-    .map(([key]) => key)
 
   if (localStorage) {
     for (const namespace of localStorage) {
@@ -165,7 +161,7 @@ export async function createStore ({
 
 export function registerGetters (ctx, getters) {
   for (const key of Object.keys(getters)) {
-    if (ctx._stator_namespaces.includes(key)) {
+    if (typeof getters[key] !== 'function') {
       for (const subKey of Object.keys(getters[key])) {
         Object.defineProperty(ctx.$getters[key], subKey, {
           get: () => getters[key](ctx.$state[key], ctx.$getters[key], ctx.$state)
@@ -181,7 +177,7 @@ export function registerGetters (ctx, getters) {
 
 export function registerActions (ctx, actions) {
   for (const key of Object.keys(actions)) {
-    if (ctx._stator_namespaces.includes(key)) {
+    if (typeof actions[key] !== 'function') {
       for (const subKey of Object.keys(actions[key])) {
         ctx.$actions[key][subKey] = function (...args) {
           return actions[key][subKey](ctx, ctx.$state[key], ...args)
