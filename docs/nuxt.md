@@ -3,11 +3,11 @@
 
 ## Setup
 
-List the `vue-stator/nuxt` module under `modules` in `nuxt.config.js`:
+List the `vue-stator/nuxt` module under `buildModules` in `nuxt.config.js`:
 
 ```
 export default {
-  modules: [`vue-stator/nuxt`]
+  buildModules: [`vue-stator/nuxt`]
 }
 ```
 
