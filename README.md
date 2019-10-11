@@ -1,5 +1,3 @@
-![50539530-e780e800-0b68-11e9-9453-e066015d0c2a](https://user-images.githubusercontent.com/12291/66621138-68b9e080-ebb9-11e9-851d-a8e18e213a10.png)
-
 # vue-stator
 
 A lightweight, _nearly drop-in_ replacement for Vuex.
