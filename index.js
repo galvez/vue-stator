@@ -208,6 +208,7 @@ function lazyInject (Vue, key, setter) {
   Vue.use(() => {
     if (!Vue.prototype.hasOwnProperty(key)) {
       Object.defineProperty(Vue.prototype, key, {
+        configurable: true,
         get () {
           this.$root.$options[key] = setter(this)
           Object.defineProperty(Vue.prototype, key, {
