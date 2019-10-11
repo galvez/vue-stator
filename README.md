@@ -66,13 +66,17 @@ Vue.use(VueStator, {
 
 Notice how `state` is a direct reference to `$state.auth`.
 
-The first argument (`ctx`) gives you access to `$state` (globaL), `$actions` and `$getters`.
+The first argument (`ctx`) gives you access to `$state` (globaL), `$actions` 
+and `$getters`.
 
-In Nuxt.js, it also gives you access to everything available in Nuxt's context, such as `$axios`.
+In Nuxt.js, it also gives you access to everything available in Nuxt's context,
+such as `$axios`.
 
 ## Global getters
 
-In a further effort to make transition from Vuex, modularized getters are available in a similar fashion. The arguments passed to getter functions have the exact same signature as Vuex.
+In a further effort to make transition from Vuex, modularized getters are
+available in a similar fashion. The arguments passed to getter functions have
+the exact same signature as Vuex.
 
 ```
 Vue.use(VueStator, {
