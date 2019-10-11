@@ -45,16 +45,13 @@ Object.assign(getters, { <%= sModule.namespace %>: _stator_<%= sModule.namespace
 export default async function (ctx, inject) {
   const hydrate = (initialState) => {
     return process.client
-<% if (options.isSPA) { %>? Vue.observable(window.__NUXT__.$state)
-<% } else { %>? Vue.observable(initialState)
+<% if (options.isSPA) { %>? Vue.observable(initialState)
+<% } else { %>? Vue.observable(window.__NUXT__.$state)
 <% } %>: initialState
   }
 
-  createStore({
-    ctx,
-    state: await state(ctx),
-    hydrate
-  })
+  const initialState = await state(ctx)
+  createStore({ ctx, hydrate, state: () => initialState })
   inject('state', ctx.$state)
 
   if (ctx.ssrContext) {
