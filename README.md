@@ -19,12 +19,12 @@ Say you have a `store/actions.js` file defining global actions:
 
 ```
 export function myAction ({ $state, $actions }, param) {
-  $state.param = param
+  $state.param = param // mutates!
   $actions.otherAction()
 }
 
 export function otherAction ({ $state }, param) {
-  $state.paramDoubled = param * 2
+  $state.paramDoubled = param * 2 // mutates!
 }
 ```
 
