@@ -13,13 +13,15 @@ Object.assign(globalActions, _stator_actions)
 <% } %>
 
 <% if (options.hasGlobalGetters) { %>
-  import * as _stator_getters from '~/<%= options.baseDir %>/getters'
-  Object.assign(globalGetters, _stator_getters)
+import * as _stator_getters from '~/<%= options.baseDir %>/getters'
+Object.assign(globalGetters, _stator_getters)
 <% } %>
-  
+
 <% for (const sModule of options.statorModules) { %>
 import * as _stator_<%= sModule.namespace %>_actions from '~/<%= options.baseDir %>/<%= sModule.actions %>'
+<% if (sModule.getters) { %>
 import * as _stator_<%= sModule.namespace %>_getters from '~/<%= options.baseDir %>/<%= sModule.getters %>'
+<% } %>
 <% } %>
 
 const actions = {}

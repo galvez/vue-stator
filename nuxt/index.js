@@ -4,7 +4,7 @@ import { join, resolve, parse } from 'path'
 
 function loadStatorModules (baseDir) {
   return readdirSync(baseDir)
-    .filter(p => !(['actions.js', 'getters.js', 'index.js'].includes(p)))
+    .filter(p => !(['actions.js', 'state.js', 'getters.js', 'index.js'].includes(p)))
     .map((p) => {
       if (p.endsWith('.js')) {
         return { namespace: parse(p).name, actions: p }
