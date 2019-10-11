@@ -2,6 +2,10 @@
 
 A lightweight, _nearly drop-in_ replacement for Vuex.
 
+```
+npm i vue-stator --save
+```
+
 See documentation for 
 [Vue.js](https://github.com/galvez/vue-stator/blob/master/docs/vue.md)
 or
