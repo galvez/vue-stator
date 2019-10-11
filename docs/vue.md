@@ -1,4 +1,6 @@
-### Vue
+# Vue
+
+## Inline definitions
 
 ```
 import VueStator from 'vue-stator'
@@ -36,4 +38,15 @@ Vue.use(VueStator, {
     }
   }
 })
+```
+
+## Loading from external files
+
+```
+import VueStator from 'vue-stator'
+import state from '~/your-desired-location/state'
+import actions from '~/your-desired-location/actions'
+import getters from '~/your-desired-location/getters'
+
+Vue.use(VueStator, { state, actions, getters })
 ```
