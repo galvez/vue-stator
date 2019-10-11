@@ -29,7 +29,8 @@ export function otherAction ({ $state }, param) {
 ```
 
 The first parameter is the context (which can be a Vue.js instance or the Nuxt.js
-context object). You can use it to access the global $state`, `$actions`, 
+context object). You can use it to access the global `$state`, `$actions` and 
+`$getters`, and in the case of Nuxt.js, also everything in its own context.
 
 ## Unified state and modularization
 
