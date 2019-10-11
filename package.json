@@ -1,50 +1,32 @@
 {
-  "_from": "vue-stator",
-  "_id": "vue-stator@0.0.1-alpha",
-  "_inBundle": false,
-  "_integrity": "sha512-t3E1zPgkfNXYCXhWejWMEZzXRF109mm00p3s3rV7bhz3i+drOXY17oEqHtXCYP2oR/sBiA2mOrlWDO8aWDorNw==",
-  "_location": "/vue-stator",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "vue-stator",
-    "name": "vue-stator",
-    "escapedName": "vue-stator",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/vue-stator/-/vue-stator-0.0.1-alpha.tgz",
-  "_shasum": "1f9cb9fa417c43236bde7a3dd6ab564443862cc4",
-  "_spec": "vue-stator",
-  "_where": "/Users/jonas/Code/Galvez",
   "bugs": {
     "url": "https://github.com/galvez/vue-stator/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
+      "name": "Jonas Galvez",
+      "url": "https://github.com/galvez"
+    },
+    {
       "name": "Pim",
-      "url": "@pimlie"
+      "url": "https://github.com/pimlie"
     }
   ],
-  "deprecated": false,
   "description": "Vuex alternative based on Vue.observable()",
   "files": [
-    "lib"
+    "nuxt",
+    "index.js"
   ],
   "homepage": "https://github.com/galvez/vue-stator#readme",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "index.js",
   "name": "vue-stator",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/galvez/vue-stator.git"
   },
-  "version": "0.0.1-alpha"
+  "version": "0.0.1-alpha",
+  "dependencies": {
+    "lodash.get": "^4.4.2"
+  }
 }
