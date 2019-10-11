@@ -85,6 +85,20 @@ In Nuxt.js, the first argument also gives you access to everything available in
 Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
 using `@nuxt/http`.
 
+## Vuex-like helpers
+
+```js
+import { mapState, mapActions, mapGetters } from 'vue-stator'
+```
+
+`vue-stator` packs `mapState`, `mapActions` and `mapGetters`, with the caveat 
+that it won't accept a dictionary of method mappings, only `(['method', ...])` 
+or `('namespace', ['method', ...])`.
+
+You have access to everything directly in Vue's context though.
+
+That is, you can just reference `$state.something` in your Vue template and it'll work.
+
 ## Global getters
 
 In a further effort to make transition from Vuex, modularized getters are
