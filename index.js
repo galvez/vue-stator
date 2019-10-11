@@ -194,3 +194,39 @@ export function registerActions (ctx, actions) {
     }
   }
 }
+
+// Vanilla Installer
+
+function injectLazy (Vue, key, setter) {
+  // Check if plugin not already installed
+  const installKey = '__stator_lazy_' + key + '_installed__'
+  if (Vue[installKey]) {
+    return
+  }
+  Vue[installKey] = true
+  // Call Vue.use() to install the plugin into vm
+  Vue.use(() => {
+    if (!Vue.prototype.hasOwnProperty(key)) {
+      Object.defineProperty(Vue.prototype, key, {
+        get () {
+          this.$root.$options[key] = setter(this)
+          Object.defineProperty(Vue.prototype, key, {
+            get () {
+              return this.$root.$options[key]
+            }
+          })
+          return this.$root.$options[key]
+        }
+      })
+    }
+  })
+}
+
+export function install (Vue, options) {
+  injectLazy(Vue, '_stator', (vm) => {
+    return createStore({ ctx: vm, ...options })
+  })
+  injectLazy(Vue, '$state', (vm) => vm._stator.$state)
+  injectLazy(Vue, '$getters', (vm) => vm._stator.$getters)
+  injectLazy(Vue, '$actions', (vm) => vm._stator.$actions)
+}
