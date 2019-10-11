@@ -1,4 +1,4 @@
-import VueStatorNuxt from '../nuxt'
 export default {
-  buildModules: [VueStatorNuxt]
+  mode: 'spa',
+  plugins: ['~/plugins/vue-stator']
 }
