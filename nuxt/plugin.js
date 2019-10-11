@@ -22,7 +22,9 @@ Object.assign(globalGetters, _stator_getters)
 <% } %>
 
 <% for (const sModule of options.statorModules) { %>
+<% if (sModule.actions) { %>
 import * as _stator_<%= sModule.namespace %>_actions from '~/<%= options.baseDir %>/<%= sModule.actions %>'
+<% } %>
 <% if (sModule.getters) { %>
 import * as _stator_<%= sModule.namespace %>_getters from '~/<%= options.baseDir %>/<%= sModule.getters %>'
 <% } %>
@@ -32,7 +34,9 @@ const actions = {}
 const getters = {}
 
 <% for (const sModule of options.statorModules) { %>
+<% if (sModule.actions) { %>
 Object.assign(actions, _stator_<%= sModule.namespace %>_actions)
+<% } %>
 <% if (sModule.getters) { %>
 Object.assign(getters, _stator_<%= sModule.namespace %>_getters)
 <% } %>

@@ -20,6 +20,7 @@ function loadStatorModules (baseDir) {
       }
       return statorModule
     })
+    .filter(sm => sm.actions || sm.getters)
 }
 
 export default function (options = {}) {
