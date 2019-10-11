@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import consola from 'consola'
-import $get from 'lodash.get'
 
 // Internal utilities
 
@@ -21,18 +19,19 @@ function _loadState (storage, namespace, onSuccess, onError) {
       onSuccess(data)
     }
   } catch (err) {
-    consola.warn(`[vue-stator] error in _loadState(${[...arguments].join(', ')})`, err)
+    // eslint-disable-next-line no-console
+    console.error(`[vue-stator] error in _loadState(${[...arguments].join(', ')})`, err)
   }
 }
 
 let _watcher
 
-export function _subscribe (ctx, path, callback) {
+export function _subscribe (ctx, key, callback) {
   if (!_watcher) {
     _watcher = new Vue()
   }
   return _watcher.$watch(
-    () => $get(ctx.$state, path),
+    () => ctx.$state[key],
     data => callback(data),
     { deep: true }
   )

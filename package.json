@@ -29,9 +29,6 @@
     "url": "git+https://github.com/galvez/vue-stator.git"
   },
   "version": "0.0.1",
-  "dependencies": {
-    "lodash.get": "^4.4.2"
-  },
   "devDependencies": {
     "@babel/core": "^7.6.3",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
