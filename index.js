@@ -8,11 +8,7 @@ function _dumpState (storage, namespace, data) {
   if (!storage) {
     return
   }
-  try {
-    storage.setItem(`vue-stator:${namespace}`, JSON.stringify(data))
-  } catch (err) {
-    consola.error('dumpState():', err)
-  }
+  storage.setItem(`vue-stator:${namespace}`, JSON.stringify(data))
 }
 
 function _loadState (storage, namespace, onSuccess, onError) {
@@ -25,7 +21,7 @@ function _loadState (storage, namespace, onSuccess, onError) {
       onSuccess(data)
     }
   } catch (err) {
-    onError(err)
+    consola.warn(`[vue-stator] error in _loadState(${[...arguments].join(', ')})`, err)
   }
 }
 
