@@ -4,10 +4,6 @@ import $get from 'lodash.get'
 
 // Internal utilities
 
-function _isPureObject (val) {
-  return val !== null && typeof val === 'object' && !Array.isArray(val)
-}
-
 function _dumpState (storage, namespace, data) {
   if (!storage) {
     return
@@ -193,7 +189,7 @@ export function registerActions (ctx, actions) {
 
 // Vanilla Installer
 
-function injectLazy (Vue, key, setter) {
+function lazyInject (Vue, key, setter) {
   // Check if plugin not already installed
   const installKey = '__stator_lazy_' + key + '_installed__'
   if (Vue[installKey]) {
@@ -219,10 +215,10 @@ function injectLazy (Vue, key, setter) {
 }
 
 export function install (Vue, options = {}) {
-  injectLazy(Vue, '_stator', (vm) => {
+  lazyInject(Vue, '_stator', (vm) => {
     return createStore({ ctx: vm, ...options })
   })
-  injectLazy(Vue, '$state', vm => vm._stator.$state)
-  injectLazy(Vue, '$getters', vm => vm._stator.$getters)
-  injectLazy(Vue, '$actions', vm => vm._stator.$actions)
+  lazyInject(Vue, '$state', vm => vm._stator.$state)
+  lazyInject(Vue, '$getters', vm => vm._stator.$getters)
+  lazyInject(Vue, '$actions', vm => vm._stator.$actions)
 }
