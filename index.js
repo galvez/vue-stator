@@ -110,7 +110,7 @@ export function mapGetters (namespace, getters) {
   }, {})
 }
 
-export async function createStore ({
+export function createStore ({
   ctx,
   state,
   actions,
@@ -119,7 +119,11 @@ export async function createStore ({
   localStorage,
   sessionStorage
 }) {
-  const initialState = await state(ctx)
+  const initialState = state(ctx)
+
+  if (ctx._isVue) {
+    ctx = {}
+  }
 
   if (localStorage) {
     for (const namespace of localStorage) {
@@ -136,7 +140,7 @@ export async function createStore ({
   }
 
   if (hydrate) {
-    ctx.$state = await hydrate(initialState)
+    ctx.$state = hydrate(initialState)
   } else {
     ctx.$state = Vue.observable(initialState)
   }
@@ -148,6 +152,7 @@ export async function createStore ({
     ctx.$actions = {}
     registerActions(ctx, actions)
   }
+  return ctx
 }
 
 // Registration helpers
@@ -203,6 +208,7 @@ function lazyInject (Vue, key, setter) {
   Vue.use(() => {
     if (!Vue.prototype.hasOwnProperty(key)) {
       Object.defineProperty(Vue.prototype, key, {
+        configurable: true,
         get () {
           this.$root.$options[key] = setter(this)
           Object.defineProperty(Vue.prototype, key, {
@@ -217,11 +223,13 @@ function lazyInject (Vue, key, setter) {
   })
 }
 
-export function install (Vue, options = {}) {
-  lazyInject(Vue, '_stator', (vm) => {
-    return createStore({ ctx: vm, ...options })
-  })
-  lazyInject(Vue, '$state', vm => vm._stator.$state)
-  lazyInject(Vue, '$getters', vm => vm._stator.$getters)
-  lazyInject(Vue, '$actions', vm => vm._stator.$actions)
+export default {
+  install (Vue, options = {}) {
+    lazyInject(Vue, '_stator', (vm) => {
+      return createStore({ ctx: vm, ...options })
+    })
+    lazyInject(Vue, '$state', vm => vm._stator.$state)
+    lazyInject(Vue, '$getters', vm => vm._stator.$getters)
+    lazyInject(Vue, '$actions', vm => vm._stator.$actions)
+  }
 }

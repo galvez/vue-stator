@@ -7,9 +7,9 @@
 
 <script>
 export default {
-  fetch ({ $actions }) {
-    // Testing SSR state change
-    $actions.user.update({
+  created () {
+    console.log('this.$actions', this.$actions)
+    this.$actions.user.update({
       firstName: 'Jonas',
       lastName: 'Galvez',
     })
