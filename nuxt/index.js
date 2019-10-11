@@ -1,5 +1,8 @@
 
-export default async function (options = {}) {
+import { existsSync } from 'fs'
+import { join, resolve } from 'path'
+
+export default function (options = {}) {
   options = Object.assign(options, this.options.stator || {})
   const baseDirName = options.baseDir || 'store'
   const baseDir = join(this.options.srcDir, baseDirName)

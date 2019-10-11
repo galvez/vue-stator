@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint": "eslint . --fix"
+  },
   "bugs": {
     "url": "https://github.com/galvez/vue-stator/issues"
   },
@@ -28,5 +31,23 @@
   "version": "0.0.1-alpha",
   "dependencies": {
     "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.6.3",
+    "@nuxtjs/eslint-config": "^1.1.2",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
+    "babel-plugin-dynamic-import-node": "^2.3.0",
+    "eslint": "^6.5.1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^5.2.3"
   }
 }

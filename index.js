@@ -66,7 +66,7 @@ export function mapState (namespace, properties) {
         set (value) {
           this.$state[prop] = value
           return this.$state[prop]
-        },
+        }
       }
       return mapped
     }, {})
@@ -79,7 +79,7 @@ export function mapState (namespace, properties) {
       set (value) {
         this.$state[namespace][prop] = value
         return this.$state[prop]
-      },
+      }
     }
     return mapped
   }, {})
@@ -90,7 +90,7 @@ export function mapActions (namespace, properties) {
     return namespace.reduce((mapped, prop) => {
       mapped[prop] = function (...args) {
         return this.$actions[prop](...args)
-      }  
+      }
       return mapped
     }, {})
   }
@@ -136,15 +136,15 @@ export async function createStore ({
 
   if (localStorage) {
     for (const namespace of localStorage) {
-      _loadState(window.localStorage, state, (data) => $set(ctx.$state, namespace, data))
-      _subscribe(ctx, namespace, (snapshot) => _dumpState(window.localStorage, namespace, snapshot))
+      _loadState(window.localStorage, state, data => $set(ctx.$state, namespace, data))
+      _subscribe(ctx, namespace, snapshot => _dumpState(window.localStorage, namespace, snapshot))
     }
   }
 
   if (sessionStorage) {
     for (const namespace of sessionStorage) {
-      _loadState(window.sessionStorage, state, (data) => $set(ctx.$state, namespace, data))
-      _subscribe(ctx, namespace, (snapshot) => _dumpState(window.sessionStorage, namespace, snapshot))
+      _loadState(window.sessionStorage, state, data => $set(ctx.$state, namespace, data))
+      _subscribe(ctx, namespace, snapshot => _dumpState(window.sessionStorage, namespace, snapshot))
     }
   }
 
@@ -168,13 +168,13 @@ export function registerGetters (ctx, getters) {
     if (ctx._stator_namespaces.includes(key)) {
       for (const subKey of Object.keys(getters[key])) {
         Object.defineProperty(ctx.$getters[key], subKey, {
-          get: () => getters[key](ctx.$state[key], ctx.$getters[key], ctx.$state),
+          get: () => getters[key](ctx.$state[key], ctx.$getters[key], ctx.$state)
         })
       }
       continue
     }
     Object.defineProperty(ctx.$getters, key, {
-      get: () => getters[key](ctx.$state, ctx.$getters),
+      get: () => getters[key](ctx.$state, ctx.$getters)
     })
   }
 }
@@ -184,13 +184,13 @@ export function registerActions (ctx, actions) {
     if (ctx._stator_namespaces.includes(key)) {
       for (const subKey of Object.keys(actions[key])) {
         ctx.$actions[key][subKey] = function (...args) {
-          return actions[key][subKey] (ctx, ctx.$state[key], ...args)
-        }    
+          return actions[key][subKey](ctx, ctx.$state[key], ...args)
+        }
       }
       continue
     }
     ctx.$actions[key] = function (...args) {
-      return actions[key] (ctx, ctx.$state, ...args)
+      return actions[key](ctx, ctx.$state, ...args)
     }
   }
 }
@@ -226,7 +226,7 @@ export function install (Vue, options = {}) {
   injectLazy(Vue, '_stator', (vm) => {
     return createStore({ ctx: vm, ...options })
   })
-  injectLazy(Vue, '$state', (vm) => vm._stator.$state)
-  injectLazy(Vue, '$getters', (vm) => vm._stator.$getters)
-  injectLazy(Vue, '$actions', (vm) => vm._stator.$actions)
+  injectLazy(Vue, '$state', vm => vm._stator.$state)
+  injectLazy(Vue, '$getters', vm => vm._stator.$getters)
+  injectLazy(Vue, '$actions', vm => vm._stator.$actions)
 }
