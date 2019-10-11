@@ -1,3 +1,5 @@
+![50539530-e780e800-0b68-11e9-9453-e066015d0c2a](https://user-images.githubusercontent.com/12291/66621138-68b9e080-ebb9-11e9-851d-a8e18e213a10.png)
+
 # vue-stator
 
 A lightweight, _nearly drop-in_ replacement for Vuex.
@@ -48,7 +50,7 @@ Vue.use(VueStator, {
   }),
   actions: {
     auth: {
-      login (_, state, user) {
+      login (ctx, state, user) {
         state.user = user
         state.loggedIn = false
       }
@@ -56,3 +58,7 @@ Vue.use(VueStator, {
   }
 }
 ```
+
+`ctx` gives you access to `$state`, `$actions` and `$getters`.
+
+In Nuxt.js, it also gives you access to everything available in Nuxt's context, such as `$axios`.
