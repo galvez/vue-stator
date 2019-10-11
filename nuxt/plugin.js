@@ -4,7 +4,7 @@ import {
   createStore,
   registerGetters,
   registerActions
-} from '../../../index'
+} from 'vue-stator'
 
 const globalActions = {}
 const globalGetters = {}
@@ -43,17 +43,14 @@ Object.assign(getters, { <%= sModule.namespace %>: _stator_<%= sModule.namespace
 <% } %>
   
 export default async function (ctx, inject) {
-  const hydrate = async (initialState) => {
+  const hydrate = (initialState) => {
     return process.client
-<% if (options.isSPA) { %>
-      ? Vue.observable(window.__NUXT__.$state)
-<% } else { %>
-      ? Vue.observable(initialState)
-<% } %>
-      : initialState
+<% if (options.isSPA) { %>? Vue.observable(window.__NUXT__.$state)
+<% } else { %>? Vue.observable(initialState)
+<% } %>: initialState
   }
 
-  await createStore({
+  createStore({
     ctx,
     state: await state(ctx),
     hydrate

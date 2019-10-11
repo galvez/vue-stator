@@ -1,4 +1,5 @@
-import VueStatorNuxt from '../nuxt'
+import VueStatorNuxt from 'vue-stator/nuxt'
+
 export default {
   buildModules: [VueStatorNuxt]
 }

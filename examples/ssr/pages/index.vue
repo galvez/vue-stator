@@ -11,7 +11,7 @@ export default {
     // Testing SSR state change
     $actions.user.update({
       firstName: 'Jonas',
-      lastName: 'Galvez',
+      lastName: 'Galvez'
     })
   }
 }
