@@ -33,13 +33,13 @@ function _loadState (storage, namespace, onSuccess, onError) {
   }
 }
 
-let $watcher
+let _watcher
 
 export function _subscribe (ctx, path, callback) {
-  if (!$watcher) {
-    $watcher = new Vue()
+  if (!_watcher) {
+    _watcher = new Vue()
   }
-  return $watcher.$watch(
+  return _watcher.$watch(
     () => $get(ctx.$state, path),
     data => callback(data),
     { deep: true }
@@ -128,7 +128,7 @@ export async function createStore ({
   localStorage,
   sessionStorage
 }) {
-  const initialState = await state()
+  const initialState = await state(ctx)
   // Determine possible namespaces
   ctx._stator_namespaces = Object.entries(initialState)
     .filter(([_, value]) => _isPureObject(value))
@@ -222,7 +222,7 @@ function injectLazy (Vue, key, setter) {
   })
 }
 
-export function install (Vue, options) {
+export function install (Vue, options = {}) {
   injectLazy(Vue, '_stator', (vm) => {
     return createStore({ ctx: vm, ...options })
   })
