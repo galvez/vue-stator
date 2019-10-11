@@ -131,7 +131,7 @@ export async function createStore ({
   const initialState = await state()
   // Determine possible namespaces
   ctx._stator_namespaces = Object.entries(initialState)
-    .filter(([_, value]) => isPureObject(value))
+    .filter(([_, value]) => _isPureObject(value))
     .map(([key]) => key)
 
   if (localStorage) {
