@@ -92,7 +92,7 @@ import { mapState, mapActions, mapGetters } from 'vue-stator'
 ```
 
 `vue-stator` packs `mapState`, `mapActions` and `mapGetters`, with the caveat 
-that it won't accept a dictionary of method mappings, only `(['method', ...])` 
+that they won't accept a dictionary of method mappings, only `(['method', ...])` 
 or `('namespace', ['method', ...])`.
 
 You have access to everything directly in Vue's context though.
