@@ -32,7 +32,7 @@ export default function (options = {}) {
     src: resolve(__dirname, 'plugin.js'),
     fileName: join(baseDirName, 'vue-stator/plugin.js'),
     options: {
-      baseDir,
+      baseDir: baseDirName,
       localStorage: options.localStorage,
       sessionStorage: options.sessionStorage,
       statorModules: loadStatorModules(baseDir),
