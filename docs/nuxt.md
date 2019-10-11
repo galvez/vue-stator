@@ -1,5 +1,5 @@
 
-# Using vue-stator in Nuxt
+# Using vue-stator in Nuxt.js
 
 ## Setup
 
