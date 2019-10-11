@@ -53,7 +53,11 @@ export default async function (ctx, inject) {
       : initialState
   }
 
-  await createStore({ ctx, state, hydrate })
+  await createStore({
+    ctx,
+    state: await state(ctx),
+    hydrate
+  })
   inject('state', ctx.$state)
 
   if (ctx.ssrContext) {
