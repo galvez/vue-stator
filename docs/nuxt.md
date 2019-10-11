@@ -20,8 +20,10 @@ change. There are three key files you can set under `store` now:
 
 ## Global state
 
-There's only one state tree definition in `vue-stator`. This file must exist as
-`store/state.js` and export a default function that returns an object.
+There's only one state tree definition in `vue-stator`. 
+
+This file must exist as `store/state.js` and export a default function 
+that returns an object.
 
 ## Global actions
 
