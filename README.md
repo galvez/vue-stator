@@ -28,15 +28,22 @@ export function otherAction ({ $state }, param) {
 }
 ```
 
-The first parameter is the context (which can be a Vue.js instance or the Nuxt.js context object). You can use it to access the global $state`, `$actions`, 
+The first parameter is the context (which can be a Vue.js instance or the Nuxt.js
+context object). You can use it to access the global $state`, `$actions`, 
 
 ## Unified state and modularization
 
-`vue-stator` introduces the **constraint of having a unified state object**. Instead of shuffling across subdirectories looking for different state definitions, you now have a single place to look at: `store/state.js`.
+`vue-stator` introduces the **constraint of having a unified state object**. 
+Instead of shuffling across subdirectories looking for different state 
+definitions, you now have a single place to look at: `store/state.js`.
 
-Still, the ability to group actions and getters by a `key` is convenient. `vue-stator` will consider any top-level key in the state that is a pure object to be a module.
+Still, the ability to group actions and getters by a `key` is convenient.
+`vue-stator` will consider any top-level key in the state that is a pure
+object to be a module.
 
-In practice, this just menas you can define **module actions** that take **three arguments**, where the second argument is a convenience reference to the state key corresponding to the module.
+In practice, this just means you can define **module actions** that take
+**three arguments**, where the second argument is a convenience reference to
+the state key corresponding to the module.
 
 ```
 Vue.use(VueStator, {
