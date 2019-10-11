@@ -35,10 +35,10 @@ const getters = {}
 
 <% for (const sModule of options.statorModules) { %>
 <% if (sModule.actions) { %>
-Object.assign(actions, _stator_<%= sModule.namespace %>_actions)
+Object.assign(actions, { <%= sModule.namespace %>: _stator_<%= sModule.namespace %>_actions })
 <% } %>
 <% if (sModule.getters) { %>
-Object.assign(getters, _stator_<%= sModule.namespace %>_getters)
+Object.assign(getters, { <%= sModule.namespace %>: _stator_<%= sModule.namespace %>_getters })
 <% } %>
 <% } %>
   

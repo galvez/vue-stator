@@ -154,8 +154,10 @@ export async function createStore ({
 // Registration helpers
 
 export function registerGetters (ctx, getters) {
+  ctx.$getters = {}
   for (const key of Object.keys(getters)) {
     if (typeof getters[key] !== 'function') {
+      ctx.$getters[key] = {}
       for (const subKey of Object.keys(getters[key])) {
         Object.defineProperty(ctx.$getters[key], subKey, {
           get: () => getters[key](ctx.$state[key], ctx.$getters[key], ctx.$state)
@@ -171,8 +173,10 @@ export function registerGetters (ctx, getters) {
 }
 
 export function registerActions (ctx, actions) {
+  ctx.$actions = {}
   for (const key of Object.keys(actions)) {
     if (typeof actions[key] !== 'function') {
+      ctx.$actions[key] = {}
       for (const subKey of Object.keys(actions[key])) {
         ctx.$actions[key][subKey] = function (...args) {
           return actions[key][subKey](ctx, ctx.$state[key], ...args)
