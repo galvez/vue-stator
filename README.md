@@ -66,7 +66,7 @@ Vue.use(VueStator, {
 ```
 
 Notice how `state` is a direct reference to `$state.auth`. The first argument 
-(`ctx`) gives you access to `$state` (globaL), `$actions` and `$getters`. So, 
+(`ctx`) gives you access to `$state` (global), `$actions` and `$getters`. So, 
 to recap:
 
 - `$state` _available in_ the first argument: **the root state**
