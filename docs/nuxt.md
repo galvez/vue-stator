@@ -37,14 +37,17 @@ As explained in the main README, the concept of store modules is _virtually
 supported_, that is, namespaced **actions** and **getters** simply get a 
 contextual `state` argument relative to the state key matching the namespace.
 
-Module actions can be exported from `store/<namespace>.js`.
+Module actions can be exported from:
 
-Or:
-
-Module actions can be exported from `store/<namespace>/actions.js`.
+- `store/<namespace>.js` or
+- `store/<namespace>/actions.js`.
 
 ## Module getters
 
-If you want to use store module getters, you must place them in: `store/<namespace>/getters.js`.
+If you want to use store module getters, you must place them in:
 
-Since defining actions tends to be more common than defining getters, `vue-stator` reserves the `store/<namespace>.js` convention for actions only (see previous topic).
+- `store/<namespace>/getters.js`.
+
+Since defining actions tends to be more common than defining getters,
+`vue-stator` reserves the `store/<namespace>.js` convention for actions 
+only (see previous topic).
