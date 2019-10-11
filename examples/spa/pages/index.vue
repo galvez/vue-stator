@@ -8,7 +8,6 @@
 <script>
 export default {
   created () {
-    console.log('this.$actions', this.$actions)
     this.$actions.user.update({
       firstName: 'Jonas',
       lastName: 'Galvez',
