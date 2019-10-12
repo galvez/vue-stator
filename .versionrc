@@ -1,0 +1,6 @@
+{
+  "commit-all": true,
+  "scripts": {
+    "postbump": "yarn build"
+  }
+}
