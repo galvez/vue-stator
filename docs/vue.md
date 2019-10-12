@@ -10,15 +10,15 @@ Vue.use(VueStator, {
     test: 123,
     auth: {
       loggedIn: false
-    }
-  }),
-  actions: {
-    incrTest ({ $state }) {
-      $state.test++
     },
     user: {
       firstName: 'John',
       lastName: 'Doe
+    },
+  }),
+  actions: {
+    incrTest ({ $state }) {
+      $state.test++
     },
     auth: {
       login ({ $actions }, state) {
