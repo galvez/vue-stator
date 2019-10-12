@@ -3,7 +3,7 @@
 ## Inline definitions
 
 ```
-import VueStator from 'vue-stator'
+import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
   state: () => ({

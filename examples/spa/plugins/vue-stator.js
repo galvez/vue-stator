@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueStator from 'vue-stator'
+import { plugin as VueStator } from 'vue-stator'
 import state from '~/store/state'
 import * as getters from '~/store/getters'
 import * as user from '~/store/user'

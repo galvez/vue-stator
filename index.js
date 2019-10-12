@@ -223,7 +223,7 @@ function lazyInject (Vue, key, setter) {
   })
 }
 
-export default {
+export const plugin = {
   install (Vue, options = {}) {
     lazyInject(Vue, '_stator', (vm) => {
       return createStore({ ctx: vm, ...options })
