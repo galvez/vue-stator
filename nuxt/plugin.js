@@ -6,7 +6,7 @@ import {
   registerActions
 } from 'vue-stator'
 
-import state from '~/<%= options.baseDir %>/state'
+<% if (options.hasState) { %>import state from '~/<%= options.baseDir %>/state'<% } %>
 <% if (options.hasGlobalActions) { %>import * as globalActions from '~/<%= options.baseDir %>/actions'<% } %>
 <% if (options.hasGlobalGetters) { %>import * as globalGetters from '~/<%= options.baseDir %>/getters'<% } %>
 <%
@@ -28,6 +28,7 @@ for (const statorModule of options.statorModules) {
   }
 } %>
 
+<% if (!options.hasState) { %>const state = () => ({})<% } %>
 <% if (!options.hasGlobalActions) { %>const globalActions = {}<% } %>
 <% if (!options.hasGlobalGetters) { %>const globalGetters = {}<% } %>
 
