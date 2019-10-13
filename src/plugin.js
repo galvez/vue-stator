@@ -4,11 +4,13 @@ import { createStore } from './store'
 
 function lazyInject (Vue, key, setter) {
   // Check if plugin not already installed
-  const installKey = '__stator_lazy_' + key + '_installed__'
+  const installKey = `__stator_${key}_installed`
   if (Vue[installKey]) {
     return
   }
+
   Vue[installKey] = true
+
   // Call Vue.use() to install the plugin into vm
   Vue.use(() => {
     if (!Vue.prototype.hasOwnProperty(key)) {
@@ -29,7 +31,7 @@ function lazyInject (Vue, key, setter) {
 }
 
 export default {
-  install (Vue, options = {}) {
+  install (Vue, options) {
     lazyInject(Vue, '_stator', (vm) => {
       return createStore({ ctx: vm, ...options })
     })

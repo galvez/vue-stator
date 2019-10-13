@@ -4,7 +4,7 @@ import {
   createStore,
   registerGetters,
   registerActions
-} from 'vue-stator'
+} from 'vue-stator/dist/vue-stator.esm.js'
 
 <% if (options.hasState) { %>import state from '~/<%= options.baseDir %>/state'<% } %>
 <% if (options.hasGlobalActions) { %>import * as globalActions from '~/<%= options.baseDir %>/actions'<% } %>
