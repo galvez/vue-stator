@@ -60,7 +60,7 @@ jobs:
       - attach-project
       - run:
           name: Type Tests
-          command: yarn dist || true
+          command: yarn build || true
       - persist_to_workspace:
           root: ~/project
           paths:
