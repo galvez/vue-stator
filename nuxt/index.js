@@ -1,9 +1,10 @@
-
 import fs from 'fs'
-import { join, resolve, parse } from 'path'
+import path from 'path'
 import { promisify } from 'util'
+import consola from 'consola'
 
 const readDir = promisify(fs.readdir)
+const logger = consola.withScope('vue-stator')
 
 function exists (p) {
   return new Promise((resolve, reject) => {
@@ -20,32 +21,32 @@ function exists (p) {
 
 async function loadStatorModules (baseDir) {
   // TODO: handle error
-  const modulePaths = await readDir(baseDir)
+  const files = await readDir(baseDir)
 
-  const modules = await Promise.all(modulePaths
-    .filter(path => !(['actions.js', 'state.js', 'getters.js', 'index.js'].includes(path)))
-    .map(async (path) => {
-      const { name: namespace } = parse(path)
+  const modules = await Promise.all(files
+    .filter(modulePath => !(['actions.js', 'state.js', 'getters.js', 'index.js'].includes(modulePath)))
+    .map(async (modulePath) => {
+      const { name: namespace } = path.parse(modulePath)
 
-      if (path.endsWith('.js')) {
+      if (modulePath.endsWith('.js')) {
         return {
           namespace,
-          actions: path
+          actions: modulePath
         }
       }
 
       let statorModule
       for (const type of ['actions', 'getters']) {
-        if (await exists(join(baseDir, path, `${type}.js`))) {
+        if (await exists(path.join(baseDir, modulePath, `${type}.js`))) {
           statorModule = statorModule || { namespace }
-          statorModule[type] = join(path, `${type}.js`)
+          statorModule[type] = path.join(modulePath, `${type}.js`)
         }
       }
 
       return statorModule
     }))
 
-  return modules.filter(Boolean)
+  return [modules.filter(Boolean), files]
 }
 
 export default async function NuxtStatorModule (options) {
@@ -55,23 +56,34 @@ export default async function NuxtStatorModule (options) {
   }
 
   const baseDirName = options.baseDir || 'store'
-  const baseDir = join(this.options.srcDir, baseDirName)
+  const baseDir = path.join(this.options.srcDir, baseDirName)
+
+  if (!await exists(baseDir)) {
+    logger.warn(`Folder '~/${path.relative(this.nuxt.options.srcDir, baseDir)}' does not exists, vue-stator will not be enabled`)
+    return
+  }
+
+  const [statorModules, files] = await loadStatorModules(baseDir)
+
+  const hasState = files.includes('state.js')
+  const hasGlobalActions = files.includes('actions.js')
+  const hasGlobalGetters = files.includes('getters.js')
 
   // Disable default Vuex store
   this.options.features.store = false
-  this.options.build.transpile.push('vue-stator')
 
   this.addPlugin({
-    src: resolve(__dirname, 'plugin.js'),
+    src: path.resolve(__dirname, 'plugin.js'),
     fileName: 'vue-stator.js',
     options: {
       isSPA: this.options.mode === 'spa',
       baseDir: baseDirName,
       localStorage: options.localStorage,
       sessionStorage: options.sessionStorage,
-      statorModules: await loadStatorModules(baseDir),
-      hasGlobalActions: await exists(join(baseDir, 'actions.js')),
-      hasGlobalGetters: await exists(join(baseDir, 'getters.js'))
+      statorModules,
+      hasState,
+      hasGlobalActions,
+      hasGlobalGetters
     }
   })
 }
