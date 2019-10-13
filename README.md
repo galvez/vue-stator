@@ -53,7 +53,7 @@ In practice, this just means you can define **module actions** that take
 the state key corresponding to the module.
 
 ```
-import VueStator from 'vue-stator'
+import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
   state: () => ({
@@ -113,7 +113,7 @@ available in a similar fashion. The arguments passed to getter functions have
 the exact same signature as Vuex.
 
 ```
-import VueStator from 'vue-stator'
+import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
   state: () => ({
