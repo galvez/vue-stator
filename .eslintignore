@@ -1,2 +1,4 @@
 node_modules
+.nuxt
+dist
 nuxt/plugin.js

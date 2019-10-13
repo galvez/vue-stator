@@ -12,6 +12,5 @@ export default {
   }
 }
 
-
 // Note: the `vue-stator/nuxt` module supports SPA mode.
 // Usage of Vue.use() here (in plugins/vue-stator) is purely didactic
