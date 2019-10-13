@@ -1,2 +1,5 @@
+dist
 .nuxt
 node_modules
+yarn.lock
+*.log
