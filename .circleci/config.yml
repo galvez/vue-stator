@@ -92,7 +92,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - example/dist
+            - test/fixtures
 
   test-e2e:
     parameters:
