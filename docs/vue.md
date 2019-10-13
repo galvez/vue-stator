@@ -22,8 +22,9 @@ Vue.use(VueStator, {
     },
     auth: {
       login ({ $actions }, state) {
-        state.loggedIn = true
-        $actions.postLogin()
+        state.loggedIn = true // state here = $state.auth
+        $actions.auth.postLogin() // $actions is the global actions accessor
+                                  // so the `auth` namespace needs to in the path
       },
       postLogin () {
         // ...
@@ -33,6 +34,7 @@ Vue.use(VueStator, {
   getters: {
     user: {
       fullName (state) {
+        // state here = $state.user
         return `${state.firstName} ${state.lastName}`
       }
     }
