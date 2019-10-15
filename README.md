@@ -149,7 +149,7 @@ See full documentation for the Nuxt.js
 [module here](https://github.com/galvez/vue-stator/blob/master/docs/nuxt.md).
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/vue-stator/beta.svg?style=flat-square
+[npm-version-src]: https://img.shields.io/npm/v/vue-stator/latest.svg?style=flat-square
 [npm-version-href]: https://npmjs.com/package/vue-stator
 
 [npm-downloads-src]: https://img.shields.io/npm/dt/vue-stator.svg?style=flat-square
