@@ -25,7 +25,7 @@ _string_ ( default: `store`)
 
 > When using Nuxt v2.9 or lower changing this option is required, otherwise Nuxt will add a Vuex store anyway
 
-Customise the folder containing your state, actions and getters
+Customise the folder containing your state, actions and getters files
 
 ## Global state
 
