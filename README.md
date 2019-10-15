@@ -23,7 +23,7 @@ making them look like mutations if needed.
 
 Say you have a `store/actions.js` file defining global actions:
 
-```
+```js
 export function myAction ({ $state, $actions }, param) {
   $state.param = param // mutates!
   $actions.otherAction()
@@ -52,7 +52,7 @@ In practice, this just means you can define **module actions** that take
 **three arguments**, where the second argument is a convenience reference to
 the state key corresponding to the module.
 
-```
+```js
 import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
@@ -112,7 +112,7 @@ In a further effort to make transition from Vuex, modularized getters are
 available in a similar fashion. The arguments passed to getter functions have
 the exact same signature as Vuex.
 
-```
+```js
 import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
