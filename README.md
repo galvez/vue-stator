@@ -6,7 +6,7 @@ A lightweight, _nearly drop-in_ replacement for Vuex.
 npm i vue-stator --save
 ```
 
-See documentation for 
+See documentation for
 [Vue.js](https://github.com/galvez/vue-stator/blob/master/docs/vue.md)
 or
 [Nuxt.js](https://github.com/galvez/vue-stator/blob/master/docs/nuxt.md).
@@ -35,13 +35,13 @@ export function otherAction ({ $state }, param) {
 ```
 
 The first parameter is the context (which can be a Vue.js instance or the Nuxt.js
-context object). You can use it to access the global `$state`, `$actions` and 
+context object). You can use it to access the global `$state`, `$actions` and
 `$getters`, and in the case of Nuxt.js, also everything in its own context.
 
 ## Unified state and modularization
 
-`vue-stator` introduces the **constraint of having a unified state object**. 
-Instead of shuffling across subdirectories looking for different state 
+`vue-stator` introduces the **constraint of having a unified state object**.
+Instead of shuffling across subdirectories looking for different state
 definitions, you now have a single place to look at: `store/state.js`.
 
 Still, the ability to group actions and getters by a `key` is convenient.
@@ -73,12 +73,12 @@ Vue.use(VueStator, {
 }
 ```
 
-Notice how `state` is a direct reference to `$state.auth`. The first argument 
-(`ctx`) gives you access to `$state` (global), `$actions` and `$getters`. So, 
+Notice how `state` is a direct reference to `$state.auth`. The first argument
+(`ctx`) gives you access to `$state` (global), `$actions` and `$getters`. So,
 to recap:
 
 - `$state` _available in_ the first argument: **the root state**
-- `state` _passed as_ the second argument: **the state key that matches the 
+- `state` _passed as_ the second argument: **the state key that matches the
 action namespace**
 
 In Nuxt.js, the first argument also gives you access to everything available in
@@ -86,7 +86,7 @@ Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
 using `@nuxt/http`.
 
 > **Beware**: in Vuex, dispatching actions will always return a `Promise`.
-> 
+>
 > In `vue-stator`, that's optional. If you have code that expects an action to
 > return a Promise (by following it with `.then()`, for instance), make sure to
 > return `Promise.resolve()` instead. **Or**, you can also simply switch to
@@ -98,8 +98,8 @@ using `@nuxt/http`.
 import { mapState, mapActions, mapGetters } from 'vue-stator'
 ```
 
-`vue-stator` packs `mapState`, `mapActions` and `mapGetters`, with the caveat 
-that they won't accept a dictionary of method mappings, only `(['method', ...])` 
+`vue-stator` packs `mapState`, `mapActions` and `mapGetters`, with the caveat
+that they won't accept a dictionary of method mappings, only `(['method', ...])`
 or `('namespace', ['method', ...])`.
 
 You have access to everything directly in Vue's context though.
@@ -134,8 +134,10 @@ Vue.use(VueStator, {
 
 ## Nuxt.js module
 
+> Nuxt v2.10+ is required unless you set the module option `baseDir` to something different then `store`
+
 Using vue-stator with Nuxt.js is as easy as using it with Vuex: a store
-will be automatically created by loading files placed in a conventional 
+will be automatically created by loading files placed in a conventional
 locations, such as `store/state.js`.
 
 See full documentation for the Nuxt.js

@@ -69,8 +69,10 @@ export default async function NuxtStatorModule (options) {
   const hasGlobalActions = files.includes('actions.js')
   const hasGlobalGetters = files.includes('getters.js')
 
-  // Disable default Vuex store
-  this.options.features.store = false
+  // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
+  if (this.options.features) {
+    this.options.features.store = false
+  }
 
   this.addPlugin({
     src: path.resolve(__dirname, 'plugin.js'),
