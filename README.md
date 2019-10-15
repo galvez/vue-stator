@@ -124,7 +124,7 @@ Vue.use(VueStator, {
   state: () => ({
     user: {
       firstName: 'John',
-      lastName: 'Doe
+      lastName: 'Doe'
     },
   }),
   getters: {
