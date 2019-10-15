@@ -1,5 +1,10 @@
 # vue-stator
 
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![Circle CI][circle-ci-src]][circle-ci-href]
+[![Codecov][codecov-src]][codecov-href]
+
 A lightweight, _nearly drop-in_ replacement for Vuex.
 
 ```
@@ -142,3 +147,16 @@ locations, such as `store/state.js`.
 
 See full documentation for the Nuxt.js
 [module here](https://github.com/galvez/vue-stator/blob/master/docs/nuxt.md).
+
+<!-- Badges -->
+[npm-version-src]: https://img.shields.io/npm/v/vue-stator/beta.svg?style=flat-square
+[npm-version-href]: https://npmjs.com/package/vue-stator
+
+[npm-downloads-src]: https://img.shields.io/npm/dt/vue-stator.svg?style=flat-square
+[npm-downloads-href]: https://npmjs.com/package/vue-stator
+
+[circle-ci-src]: https://img.shields.io/circleci/project/github/galvez/vue-stator.svg?style=flat-square
+[circle-ci-href]: https://circleci.com/gh/galvez/vue-stator
+
+[codecov-src]: https://img.shields.io/codecov/c/github/galvez/vue-stator.svg?style=flat-square
+[codecov-href]: https://codecov.io/gh/galvez/vue-stator
