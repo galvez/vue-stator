@@ -20,6 +20,7 @@
   "module": "dist/vue-stator.esm.js",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.js",
+    "coverage": "codecov",
     "lint": "eslint . --fix",
     "prerelease": "git checkout master && git pull -r",
     "release": "yarn lint && yarn test && standard-version",
@@ -44,6 +45,7 @@
     "@nuxtjs/eslint-config": "^1.1.2",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
+    "codecov": "^3.6.1",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
