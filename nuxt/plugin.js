@@ -1,61 +1,79 @@
 import Vue from 'vue'
-
 import {
-  createStore,
-  registerGetters,
-  registerActions
-} from 'vue-stator/dist/vue-stator.esm.js'
+  plugin as VueStator,
+  createStore
+} from 'vue-stator' ///dist/vue-stator.esm.js'
+
+Vue.use(VueStator)
 
 <% if (options.hasState) { %>import state from '~/<%= options.baseDir %>/state'<% } %>
-<% if (options.hasGlobalActions) { %>import * as globalActions from '~/<%= options.baseDir %>/actions'<% } %>
-<% if (options.hasGlobalGetters) { %>import * as globalGetters from '~/<%= options.baseDir %>/getters'<% } %>
+<% if (options.hasGlobalActions) { %>import * as actions from '~/<%= options.baseDir %>/actions'<% } %>
+<% if (options.hasGlobalGetters) { %>import * as getters from '~/<%= options.baseDir %>/getters'<% } %>
 <%
-const statorActionsModules = {}
-const statorGettersModules = {}
+const modules = {}
 for (const statorModule of options.statorModules) {
-  if (statorModule.actions) {
-    const importName = `statorActions_${statorModule.namespace}`
-    statorActionsModules[statorModule.namespace] = importName
-
-%>import * as <%= importName %> from '~/<%= options.baseDir %>/<%= statorModule.actions %>'<%
+  const { namespace, state, getters, actions } = statorModule
+  if (!(state || getters || actions)) {
+    continue
   }
 
-  if (statorModule.getters) {
-    const importName = `statorGetters_${statorModule.namespace}`
-    statorGettersModules[statorModule.namespace] = importName
+  modules[namespace] = {}
 
-%>import * as <%= importName %> from '~/<%= options.baseDir %>/<%= statorModule.getters %>'<%
+  if (state) {
+    const importName = `${namespace}State`
+    modules[namespace].state = importName
+
+%>import * as <%= importName %> from '~/<%= options.baseDir %>/<%= state %>'<%
+  }
+
+  if (actions) {
+    const importName = `${namespace}Actions`
+    modules[namespace].actions = importName
+
+%>import * as <%= importName %> from '~/<%= options.baseDir %>/<%= actions %>'<%
+  }
+
+  if (getters) {
+    const importName = `${namespace}Getters`
+    modules[namespace].getters = importName
+
+%>import * as <%= importName %> from '~/<%= options.baseDir %>/<%= getters %>'<%
   }
 } %>
 
 <% if (!options.hasState) { %>const state = () => ({})<% } %>
-<% if (!options.hasGlobalActions) { %>const globalActions = {}<% } %>
-<% if (!options.hasGlobalGetters) { %>const globalGetters = {}<% } %>
+<% if (!options.hasGlobalActions) { %>const actions = {}<% } %>
+<% if (!options.hasGlobalGetters) { %>const getters = {}<% } %>
 
-const actions = { <%= Object.entries(statorActionsModules).map(([k, v]) => `${k}: ${v}`).join(', ') %> }
-const getters = { <%= Object.entries(statorGettersModules).map(([k, v]) => `${k}: ${v}`).join(', ') %> }
+const modules = {
+  <%= Object.entries(modules).map(([moduleName, module]) =>
+  `${moduleName}: {
+    ${Object.entries(module).map(([key, value]) => `${key}: ${value}`).join('\n    ')}
+  }`).join(',  ') %>
+}
 
 export default async function NuxtStatorPlugin (ctx, inject) {
   const hydrate = (initialState) => {
     return process.client
-      ? Vue.observable(<%= options.isSPA ? 'initialState' : 'window.__NUXT__.$state' %>)
+      ? <%= options.isSPA ? 'initialState' : 'window.__NUXT__.$state' %>
       : initialState
   }
 
   const initialState = await state(ctx)
 
-  createStore({
-    ctx,
+  const stator = createStore({
+    state: () => initialState,
     hydrate,
-    state: () => initialState
+    getters,
+    actions,
+    modules
   })
 
-  ctx.$actions = registerActions(ctx, { ...globalActions, ...actions })
-  ctx.$getters = registerGetters(ctx, { ...globalGetters, ...getters })
+  ctx.app.stator = stator
 
-  inject('state', ctx.$state)
-  inject('actions', ctx.$actions)
-  inject('getters', ctx.$getters)
+  ctx.$state = stator.$state
+  ctx.$getters = stator.$getters
+  ctx.$actions = stator.$actions
 
   if (ctx.ssrContext) {
     ctx.ssrContext.nuxt.$state = ctx.$state

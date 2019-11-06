@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  fetch ({ $actions }) {
+  fetch ({ $actions, $state }) {
     // Testing SSR state change
     $actions.user.update({
       firstName: 'Jonas',

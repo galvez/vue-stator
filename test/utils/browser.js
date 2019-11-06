@@ -16,6 +16,7 @@ export function startBrowser ({ folder, port, globalName = 'nuxt', extendPage = 
   globalName = `$${globalName}`
 
   return createBrowser(browserString, {
+    quiet: true,
     staticServer: {
       folder,
       port
@@ -23,6 +24,7 @@ export function startBrowser ({ folder, port, globalName = 'nuxt', extendPage = 
     extendPage (page) {
       return {
         async navigate (path) {
+          /* eslint-disable no-console */
           await page.runAsyncScript((path, globalName) => {
             if (!window[globalName]) {
               console.error('window.'.concat(globalName, ' does not exists'))
@@ -42,6 +44,7 @@ export function startBrowser ({ folder, port, globalName = 'nuxt', extendPage = 
               window[globalName].$router.push(path)
             })
           }, path, globalName)
+          /* eslint-ensable no-console */
         },
         routeData () {
           return page.runScript(() => ({

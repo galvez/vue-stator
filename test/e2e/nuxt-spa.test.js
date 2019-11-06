@@ -28,30 +28,30 @@ describe('basic', () => {
     }
   })
 
-  afterEach(() => jest.resetAllMocks())
+  beforeEach(() => jest.resetAllMocks())
 
   afterAll(async () => {
     await nuxt.close()
     await browser.close()
   })
 
-  async function testHome () {
+  async function testHome (nav) {
     if (browser.supportsLogging) {
-      expect(logSpies.warn).toHaveBeenCalledTimes(0)
-      expect(logSpies.error).toHaveBeenCalledTimes(0)
+      expect(logSpies.warn).not.toHaveBeenCalled()
+      expect(logSpies.error).not.toHaveBeenCalled()
     }
 
-    expect(await page.getText('.state')).toBe('456')
+    expect(await page.getText('.state')).toBe(nav ? '123' : '456')
     expect(await page.getText('.getter')).toBe('Pim lie')
   }
 
   async function testAbout (nav) {
     if (browser.supportsLogging) {
-      expect(logSpies.warn).toHaveBeenCalledTimes(0)
-      expect(logSpies.error).toHaveBeenCalledTimes(0)
+      expect(logSpies.warn).not.toHaveBeenCalled()
+      expect(logSpies.error).not.toHaveBeenCalled()
     }
 
-    expect(await page.getText('.state')).toBe('456')
+    expect(await page.getText('.state')).toBe('123')
     expect(await page.getText('.getter')).toBe(nav ? 'Pim lie' : 'John Doe')
   }
 
@@ -78,6 +78,6 @@ describe('basic', () => {
   test('nav /', async () => {
     await page.navigate('/')
 
-    await testHome()
+    await testHome(true)
   })
 })

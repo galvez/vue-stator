@@ -6,3 +6,11 @@
     <p class="getter">{{ $getters.userFullName }}</p>
   </div>
 </template>
+
+<script>
+export default {
+  mounted() {
+    this.$state.test = 456
+  }
+}
+</script>

@@ -7,6 +7,10 @@ export default {
   // Usage of Vue.use() here (in plugins/vue-stator) is purely didactic
   plugins: ['~/plugins/vue-stator'],
 
+  features: {
+    store: false
+  },
+
   // For library testing only:
   build: {
     extend (config) {

@@ -1,4 +1,5 @@
-import { loadFixture, Nuxt, getPort, startBrowser } from 'test-utils'
+import path from 'path'
+import { getPort, startBrowser } from 'test-utils'
 
 describe('basic', () => {
   let browser
@@ -10,12 +11,11 @@ describe('basic', () => {
     const host = 'localhost'
     const port = await getPort()
 
-    const config = await loadFixture('nuxt-ssr')
-    nuxt = new Nuxt(config)
-    await nuxt.ready()
-    await nuxt.server.listen(port, host)
-
-    browser = await startBrowser()
+    browser = await startBrowser({
+      globalName: 'vue',
+      folder: path.resolve(__dirname, '../fixtures', 'vue-ssr', 'dist'),
+      port
+    })
 
     // Override browsers getUrl
     browser.getUrl = path => `http://${host}:${port}${path}`
