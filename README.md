@@ -119,15 +119,18 @@ That is, you can just reference `$state.something` in your Vue template and it'l
 `vue-stator` also provides some helper methods to interact with the store more easily.
 
 - `$stator.subscribe('module/key', callback)`
-To quickly subscribe to specific state updates
+To quickly subscribe to specific state updates. This uses `Vue.$watch` under the hood
 
 - `$stator.registerModule(module, moduleName)`
 To dynamically register a store module. The moduleName can be ommitted if your
 module already contains a name property
 
+- `$stator.unregisterModule(moduleName)`
+To dynamically unregister a store module
+
 ```js
   beforeCreate () {
-    this.$stator({
+    this.$stator.registerModule({
       name: 'my/module',
       state () {
         return {
@@ -138,7 +141,7 @@ module already contains a name property
 
     // or
 
-    this.$stator({
+    this.$stator.registerModule({
       state () {
         return {
           key: true
@@ -148,11 +151,11 @@ module already contains a name property
   },
   mounted () {
     this.$state.my.module.key // true
+  },
+  destroyed () {
+    this.$stator.unregisterModule('my/module')
   }
 ```
-
-- `$stator.unregisterModule(moduleName)`
-To dynamically unregister a store module
 
 ## Global getters
 
