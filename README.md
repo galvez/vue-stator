@@ -45,13 +45,13 @@ context object). You can use it to access the global `$state`, `$actions` and
 
 ## Unified state and modularization
 
-`vue-stator` introduces the **constraint of having a unified state object**.
+`vue-stator` introduces the **possibility of having a unified state object**.
 Instead of shuffling across subdirectories looking for different state
-definitions, you now have a single place to look at: `store/state.js`.
+definitions, you could now have a single place to look at: `store/state.js`.
 
 Still, the ability to group actions and getters by a `key` is convenient.
-`vue-stator` will consider any top-level key in the state that is a pure
-object to be a module.
+`vue-stator` fully supports module syntax which can define their own state, getters
+and/or actions.
 
 In practice, this just means you can define **module actions** that take
 **three arguments**, where the second argument is a convenience reference to
@@ -67,11 +67,13 @@ Vue.use(VueStator, {
       loggedIn: false
     }
   }),
-  actions: {
+  modules: {
     auth: {
-      login (ctx, state, user) {
-        state.user = user
-        state.loggedIn = false
+      actions: {
+        login (ctx, state, user) {
+          state.user = user
+          state.loggedIn = false
+        }
       }
     }
   }
@@ -84,18 +86,20 @@ to recap:
 
 - `$state` _available in_ the first argument: **the root state**
 - `state` _passed as_ the second argument: **the state key that matches the
-action namespace**
+module namespace**
 
+__ TBD __
 In Nuxt.js, the first argument also gives you access to everything available in
 Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
 using `@nuxt/http`.
+__ /TBD __
 
 > **Beware**: in Vuex, dispatching actions will always return a `Promise`.
 >
 > In `vue-stator`, that's optional. If you have code that expects an action to
 > return a Promise (by following it with `.then()`, for instance), make sure to
 > return `Promise.resolve()` instead. **Or**, you can also simply switch to
-> `async/await` syntax and it will work just fine (without `.then()`).
+> `async/await` syntax and it will work just fine.
 
 ## Vuex-like helpers
 
@@ -103,13 +107,52 @@ using `@nuxt/http`.
 import { mapState, mapActions, mapGetters } from 'vue-stator'
 ```
 
-`vue-stator` packs `mapState`, `mapActions` and `mapGetters`, with the caveat
-that they won't accept a dictionary of method mappings, only `(['method', ...])`
-or `('namespace', ['method', ...])`.
+`vue-stator` packs `mapState`, `mapActions` and `mapGetters`, which accept a
+dictionary of method mappings, eg `(['method', 'module/namespace/method'])`
 
 You have access to everything directly in Vue's context though.
 
 That is, you can just reference `$state.something` in your Vue template and it'll work.
+
+## Runtime helpers
+
+`vue-stator` also provides some helper methods to interact with the store more easily.
+
+- `$stator.subscribe('module/key', callback)`
+To quickly subscribe to specific state updates
+
+- `$stator.registerModule(module, moduleName)`
+To dynamically register a store module. The moduleName can be ommitted if your
+module already contains a name property
+
+```js`
+  beforeCreate () {
+    this.$stator({
+      name: 'my/module',
+      state () {
+        return {
+          key: true
+        }
+      }
+    })
+
+    // or
+
+    this.$stator({
+      state () {
+        return {
+          key: true
+        }
+      }
+    }, 'my/module')
+  },
+  mounted () {
+    this.$state.my.module.key // true
+  }
+```
+
+- `$stator.unregisterModule(moduleName)`
+To dynamically unregister a store module
 
 ## Global getters
 
@@ -127,15 +170,66 @@ Vue.use(VueStator, {
       lastName: 'Doe'
     },
   }),
-  getters: {
+  modules: {
     user: {
-      fullName (state) {
-        return `${state.firstName} ${state.lastName}`
+      getters: {
+        fullName (state) {
+          return `${state.firstName} ${state.lastName}`
+        }
       }
     }
   }
 }
 ```
+
+## Storage helpers
+
+If you need your state to always be comitted to a storage provider, `vue-stator`
+provides a configuration option which will automatically store and restore that
+state on changes
+
+```js
+const statorConfiguration = {
+  storage: {
+    provider: {
+      getItem (key) {
+        // do something
+      },
+      setItem (key, value) {
+        // do something
+      }
+    },
+    namespaces: [
+      'key',
+      'module/key'
+    ]
+  }
+}
+```
+Or if you need to use multiple storage providers
+
+```js
+const statorConfiguration = {
+  storage: [
+    { // object syntax
+      provider () {
+        if (process.client) {
+          return window.localStorage
+        }
+      },
+      namespaces: [
+        'persistent-key',
+        'my/module/key'
+      ]
+    },
+    [ // array syntax
+      window.sessionStorage, // this will probably fail on SSR, see object syntax
+      [ 'temp-key' ]
+    ]
+  ]
+}
+```
+
 
 ## Nuxt.js module
 
