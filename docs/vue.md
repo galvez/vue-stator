@@ -5,7 +5,7 @@ See our fixture for the [` Vue Server-Side Rendering`](../test/fixtures/vue-ssr)
 ## Inline definitions
 
 ```js
-import { plugin as VueStator, createStore } from 'vue-stator'
+import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
   state: () => ({
@@ -54,6 +54,10 @@ Vue.use(VueStator, {
 or pass the store as prop of your app
 
 ```js
+import { plugin as VueStator, createStore } from 'vue-stator'
+
+Vue.use(VueStator)
+
 const stator = createStore({ /* stator config */ })
 
 new Vue({
