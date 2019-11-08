@@ -125,7 +125,7 @@ To quickly subscribe to specific state updates
 To dynamically register a store module. The moduleName can be ommitted if your
 module already contains a name property
 
-```js`
+```js
   beforeCreate () {
     this.$stator({
       name: 'my/module',
