@@ -88,11 +88,9 @@ to recap:
 - `state` _passed as_ the second argument: **the state key that matches the
 module namespace**
 
-__ TBD __
 In Nuxt.js, the first argument also gives you access to everything available in
 Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
 using `@nuxt/http`.
-__ /TBD __
 
 > **Beware**: in Vuex, dispatching actions will always return a `Promise`.
 >

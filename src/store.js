@@ -6,6 +6,7 @@ import { callIfFunction } from './utils'
 
 export function createStore ({
   state,
+  context,
   hydrate,
   actions,
   getters,
@@ -42,7 +43,14 @@ export function createStore ({
     }
   }
 
-  register(store, {
+  context = context || {}
+  context.$stator = store
+
+  context.$state = store.$state
+  context.$getters = store.$getters
+  context.$actions = store.$actions
+
+  register(context, {
     state: store.$state,
     getters: store.$getters,
     actions: store.$actions
@@ -57,9 +65,11 @@ export function createStore ({
 
 // Registration helpers
 
-export function register (store, parent, { getters, actions, modules }, isRoot) {
+export function register (context, parent, { getters, actions, modules }, isRoot) {
+  const store = context.$stator || context
+
   registerGetters(store, parent, getters)
-  registerActions(store, parent, actions)
+  registerActions(context, parent, actions)
 
   if (!modules) {
     return
@@ -70,21 +80,22 @@ export function register (store, parent, { getters, actions, modules }, isRoot) 
     // TODO: should we order moduleNames by length? Cause now the user needs
     // to register the module 'user' before 'user/profile'
     if (isRoot && moduleName.includes(namespaceSeparator)) {
-      registerModule(store, moduleName, modules[moduleName])
+      registerModule(context, moduleName, modules[moduleName])
       continue
     }
 
-    registerModule(store, parent, modules[moduleName], moduleName)
+    registerModule(context, parent, modules[moduleName], moduleName)
   }
 }
 
-export function registerModule (store, parent, module, moduleName) {
+export function registerModule (context, parent, module, moduleName) {
   // for supporting runtime module registration
   if (typeof parent === 'string') {
     parent = parent.split(namespaceSeparator)
   }
 
   if (Array.isArray(parent)) {
+    const store = context.$stator || context
     moduleName = moduleName || parent.pop()
     parent = getModuleByNamespace(store, parent)
   }
@@ -108,10 +119,10 @@ export function registerModule (store, parent, module, moduleName) {
     }
   }
 
-  register(store, moduleParent || parent, module)
+  register(context, moduleParent || parent, module)
 }
 
-export function unregisterModule (store, parent) {
+export function unregisterModule (context, parent) {
   if (typeof parent === 'string') {
     parent = parent.split(namespaceSeparator)
   }
@@ -121,6 +132,7 @@ export function unregisterModule (store, parent) {
     return
   }
 
+  const store = context.$stator || context
   const moduleName = parent.pop()
   parent = getModuleByNamespace(store, parent)
 
@@ -161,7 +173,7 @@ export function registerGetters (store, { state, getters: parent }, getters) {
   }
 }
 
-export function registerActions (store, { state, actions: parent }, actions) {
+export function registerActions (context, { state, actions: parent }, actions) {
   if (!actions) {
     return
   }
@@ -174,7 +186,7 @@ export function registerActions (store, { state, actions: parent }, actions) {
 
     // TODO: why no arrow fn here? do we need this context?
     parent[key] = function (...args) {
-      return actions[key](store, state, ...args)
+      return actions[key](context, state, ...args)
     }
   }
 }

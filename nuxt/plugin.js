@@ -52,30 +52,27 @@ const modules = {
   }`).join(',  ') %>
 }
 
-export default async function NuxtStatorPlugin (ctx, inject) {
+export default async function NuxtStatorPlugin (context, inject) {
   const hydrate = (initialState) => {
     return process.client
       ? <%= options.isSPA ? 'initialState' : 'window.__NUXT__.$state' %>
       : initialState
   }
 
-  const initialState = await state(ctx)
+  const initialState = await state(context)
 
   const stator = createStore({
     state: () => initialState,
+    context,
     hydrate,
     getters,
     actions,
     modules
   })
 
-  ctx.app.stator = stator
+  context.app.stator = stator
 
-  ctx.$state = stator.$state
-  ctx.$getters = stator.$getters
-  ctx.$actions = stator.$actions
-
-  if (ctx.ssrContext) {
-    ctx.ssrContext.nuxt.$state = ctx.$state
+  if (context.ssrContext) {
+    context.ssrContext.nuxt.$state = context.$state
   }
 }
