@@ -12,7 +12,7 @@ Vue.use(VueStator, {
     test: 123,
     user: {
       firstName: 'John',
-      lastName: 'Doe
+      lastName: 'Doe'
     },
   }),
   actions: {
