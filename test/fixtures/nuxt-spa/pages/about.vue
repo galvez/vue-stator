@@ -6,3 +6,11 @@
     <p class="getter">{{ $getters.userFullName }}</p>
   </div>
 </template>
+
+<script>
+export default {
+  created () {
+    this.$state.test = 123
+  }
+}
+</script>

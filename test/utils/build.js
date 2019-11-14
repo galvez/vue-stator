@@ -1,7 +1,33 @@
 import path from 'path'
-import { loadFixture, Nuxt, Builder, BundleBuilder, Generator, listPaths } from '.'
+import fs from 'fs-extra'
+import * as webpack from './webpack'
+import { rimraf, loadFixture, Nuxt, Builder, BundleBuilder, Generator, listPaths } from '.'
 
-export function buildFixture ({ dir, generate, callback, hooks = [], changedPaths = [] }) {
+export function buildVueFixture ({ dir, entry, urls, renderPage }) {
+  const fixture = path.basename(dir)
+
+  test(`Build ${fixture}`, async () => {
+    const distDir = path.join(dir, 'dist')
+    await rimraf(distDir)
+
+    const config = webpack.createConfig({ dir, entry })
+    await webpack.buildApp(config)
+
+    await Promise.all(urls.map(async (url) => {
+      const html = await renderPage({ url })
+
+      const routePath = path.join(dir, 'dist', url)
+      await fs.ensureDir(routePath)
+
+      await fs.writeFile(path.join(routePath, 'index.html'), html)
+    }))
+
+    expect(await fs.exists(path.join(dir, 'dist', 'index.html'))).toBe(true)
+    expect(await fs.exists(path.join(dir, 'dist', 'about/index.html'))).toBe(true)
+  })
+}
+
+export function buildNuxtFixture ({ dir, generate, callback, hooks = [], changedPaths = [] }) {
   const pathsBefore = {}
   let nuxt
 

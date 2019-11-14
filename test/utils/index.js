@@ -1,4 +1,5 @@
 import klaw from 'klaw'
+import farmir from 'rimraf'
 
 export { default as getPort } from 'get-port'
 
@@ -18,5 +19,17 @@ export function listPaths (dir, pathsBefore = [], options = {}) {
         }
       })
       .on('end', () => resolve(items))
+  })
+}
+
+export function rimraf (dir) {
+  return new Promise((resolve, reject) => {
+    farmir(dir, (err) => {
+      if (err) {
+        reject(err)
+      }
+
+      resolve()
+    })
   })
 }

@@ -20,12 +20,14 @@
   "module": "dist/vue-stator.esm.js",
   "scripts": {
     "build": "rimraf dist && rollup -c rollup.config.js",
+    "coverage": "codecov",
     "lint": "eslint . --fix",
     "prerelease": "git checkout master && git pull -r",
     "release": "yarn lint && yarn test && standard-version",
-    "test": "yarn test:fixtures && yarn test:e2e",
+    "test": "yarn test:unit && yarn test:fixtures && yarn test:e2e",
     "test:fixtures": "jest test/fixtures",
-    "test:e2e": "jest test/e2e"
+    "test:e2e": "jest test/e2e",
+    "test:unit": "jest test/unit"
   },
   "contributors": [
     {
@@ -38,28 +40,29 @@
     }
   ],
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/core": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
     "@nuxtjs/eslint-config": "^1.1.2",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
-    "eslint": "^6.5.1",
+    "codecov": "^3.6.1",
+    "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-jest": "^23.0.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^5.2.3",
-    "geckodriver": "^1.18.0",
+    "geckodriver": "^1.19.1",
     "get-port": "^5.0.0",
     "jest": "^24.9.0",
     "klaw": "^3.0.0",
     "lodash.defaultsdeep": "^4.6.1",
     "node-env-file": "^0.1.8",
-    "nuxt": "^2.10.1",
-    "puppeteer-core": "^1.20.0",
-    "rollup": "^1.23.1",
+    "nuxt": "^2.10.2",
+    "puppeteer-core": "^2.0.0",
+    "rollup": "^1.26.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
@@ -67,7 +70,7 @@
     "rollup-plugin-terser": "^5.1.2",
     "selenium-webdriver": "^4.0.0-alpha.5",
     "standard-version": "^7.0.0",
-    "tib": "^0.7.2",
+    "tib": "^0.7.3",
     "vue-jest": "^3.0.5"
   }
 }

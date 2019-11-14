@@ -1,3 +1,3 @@
-import { buildFixture } from 'test-utils/build'
+import { buildNuxtFixture } from 'test-utils/build'
 
-buildFixture({ dir: __dirname, generate: true })
+buildNuxtFixture({ dir: __dirname, generate: true })
