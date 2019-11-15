@@ -45,7 +45,7 @@ let store = {
 void (function updateModules () {
   <% storeModules.some(s => {
     if(s.src.indexOf('index.') === 0) { %>
-  store = normalizeRoot(require('<%= relativeToBuild(srcDir, dir.store, s.src) %>'), '<%= dir.store %>/<%= s.src %>')
+  store = normalizeRoot(require('<%= relativeToBuild(srcDir, dir.stator, s.src) %>'), '<%= dir.stator %>/<%= s.src %>')
   <% return true }}) %>
 
   // If store is an exported method = classic mode (deprecated)
@@ -60,14 +60,14 @@ void (function updateModules () {
 
   <% storeModules.forEach(s => {
     if(s.src.indexOf('index.') !== 0) { %>
-  resolveStoreModules(require('<%= relativeToBuild(srcDir, dir.store, s.src) %>'), '<%= s.src %>')<% }}) %>
+  resolveStoreModules(require('<%= relativeToBuild(srcDir, dir.stator, s.src) %>'), '<%= s.src %>')<% }}) %>
 
   // If the environment supports hot reloading...
   <% if (isDev) { %>
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([<% storeModules.forEach(s => { %>
-      '<%= relativeToBuild(srcDir, dir.store, s.src) %>',<% }) %>
+      '<%= relativeToBuild(srcDir, dir.stator, s.src) %>',<% }) %>
     ], () => {
       // Update `root.modules` with the latest definitions.
       updateModules()
@@ -118,7 +118,7 @@ function resolveStoreModules (moduleData, filename) {
   const namespace = filename.replace(/\.(<%= extensions %>)$/, '')
   const namespaces = namespace.split('/')
   let moduleName = namespaces[namespaces.length - 1]
-  const filePath = `<%= dir.store %>/${filename}`
+  const filePath = `<%= dir.stator %>/${filename}`
 
   moduleData = moduleName === 'state'
     ? normalizeState(moduleData, filePath)

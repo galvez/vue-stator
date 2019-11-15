@@ -6,7 +6,7 @@ export default function NuxtStatorModule (options) {
     ...this.options.stator
   }
 
-  const statorDir = options.baseDir || 'store'
+  this.nuxtOptions.dir.stator = options.baseDir || 'store'
   const disableStore = 'disableVuex' in options ? options.disableVuex : true
 
   // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
@@ -22,7 +22,7 @@ export default function NuxtStatorModule (options) {
   let statorModules
   this.nuxt.hook('builder:prepared', async (builder) => {
     // this is copied from nuxt/builder/builder.js:resolveStore
-    statorModules = (await builder.resolveRelative(statorDir))
+    statorModules = (await builder.resolveRelative(this.nuxtOptions.dir.stator))
       .sort(({ src: p1 }, { src: p2 }) => {
         // modules are sorted from low to high priority (for overwriting properties)
         let res = p1.split('/').length - p2.split('/').length
