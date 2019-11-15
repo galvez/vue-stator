@@ -55,6 +55,8 @@ export default async function NuxtStatorModule (options) {
     ...this.options.stator
   }
 
+  const disableStore = 'disableVuex' in options ? options.disableVuex : true
+
   const baseDirName = options.baseDir || 'store'
   const baseDir = path.join(this.options.srcDir, baseDirName)
 
@@ -70,7 +72,7 @@ export default async function NuxtStatorModule (options) {
   const hasGlobalGetters = files.includes('getters.js')
 
   // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
-  if (this.options.features) {
+  if (this.options.features && disableStore) {
     this.options.features.store = false
   }
 
