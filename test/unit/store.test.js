@@ -1,9 +1,13 @@
 import Vue from 'vue'
+import * as storage from '~/storage'
 import * as store from '~/store'
 import * as watcher from '~/watcher'
 
 describe('store', () => {
   test('creates basic store', () => {
+    jest.spyOn(watcher, 'setWatcher').mockImplementation(_ => _)
+
+    const vm = {}
     const config = {
       state: {
         name: 'test'
@@ -20,7 +24,7 @@ describe('store', () => {
       }
     }
 
-    const stator = store.createStore(config)
+    const stator = store.createStore(config, vm)
 
     expect(stator.$state.name).toBe('test')
     expect(stator.$getters.doublename).toBe('testtest')
@@ -29,6 +33,9 @@ describe('store', () => {
 
     expect(stator.$state.name).toBe('other')
     expect(stator.$getters.doublename).toBe('otherother')
+
+    expect(watcher.setWatcher).toHaveBeenCalledTimes(1)
+    expect(watcher.setWatcher).toHaveBeenCalledWith(vm)
   })
 
   test('hydrates state store', () => {
@@ -153,6 +160,25 @@ describe('store', () => {
     expect(stator.$state.my.module).toBeUndefined()
     expect(stator.$getters.my.module).toBeUndefined()
     expect(stator.$actions.my.module).toBeUndefined()
+  })
+
+  test('does nothing when unregistering module with object', () => {
+    const my = {
+      state: {
+        name: 'test'
+      }
+    }
+
+    const config = {
+      modules: { my }
+    }
+
+    const stator = store.createStore(config)
+
+    stator.unregisterModule(my)
+
+    expect(stator.$state.my).toBeDefined()
+    expect(stator.$state.my.name).toBe('test')
   })
 
   test('throws error when dynamic module to register has no name', () => {
@@ -289,5 +315,21 @@ describe('store', () => {
     expect(stator.$state.name).toBe('test')
     expect(stator.$getters.doublename).toBeUndefined()
     expect(stator.$actions.setName).toBeUndefined()
+  })
+
+  test('registers storage passed to config', () => {
+    jest.spyOn(storage, 'registerStorage')
+
+    const config = {
+      state: {
+        name: 'test'
+      },
+      storage: [1, 2]
+    }
+
+    store.createStore(config)
+
+    expect(storage.registerStorage).toHaveBeenCalledTimes(1)
+    expect(storage.registerStorage).toHaveBeenCalledWith(expect.any(Object), [1, 2])
   })
 })

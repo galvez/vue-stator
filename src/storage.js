@@ -4,6 +4,10 @@ import { callIfFunction } from './utils'
 import { subscribe } from './watcher'
 
 export function validateStorage (storage) {
+  if (!storage) {
+    return false
+  }
+
   if (storage instanceof Storage) {
     return true
   }
