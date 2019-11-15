@@ -21,6 +21,7 @@ export default function NuxtStatorModule (options) {
 
   let statorModules
   this.nuxt.hook('builder:prepared', async (builder) => {
+    // this is copied from nuxt/builder/builder.js:resolveStore
     statorModules = (await builder.resolveRelative(statorDir))
       .sort(({ src: p1 }, { src: p2 }) => {
         // modules are sorted from low to high priority (for overwriting properties)
