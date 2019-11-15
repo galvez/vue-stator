@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/galvez/vue-stator/compare/v1.1.0...v1.1.1) (2019-11-15)
+
+
+### Bug Fixes
+
+* **nuxt:** in module its options ([569b848](https://github.com/galvez/vue-stator/commit/569b8480a837f16c9df9306554b6758417d42b35))
+* **nuxt:** use stator dir ([2516fd6](https://github.com/galvez/vue-stator/commit/2516fd68fc996dc996658010a05a8c976b95704d))
+
 ## [1.1.0](https://github.com/galvez/vue-stator/compare/v1.0.0...v1.1.0) (2019-11-15)
 
 
