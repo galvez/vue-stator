@@ -24,6 +24,43 @@ describe('helpers', () => {
     expect(Vue.delete).toHaveBeenCalledWith(1)
   })
 
+  test('map accepts string arg', () => {
+    jest.spyOn(namespace, 'getPropertyByNamespace').mockImplementation(_ => _)
+    jest.spyOn(namespace, 'setPropertyByNamespace').mockImplementation(_ => _)
+
+    const assigner = jest.fn()
+    const mapped = helpers.map('name', assigner)
+
+    expect(assigner).toHaveBeenCalledTimes(1)
+    expect(assigner).toHaveBeenCalledWith('name')
+    expect(mapped.hasOwnProperty('name')).toBe(true)
+  })
+
+  test('map accepts array arg', () => {
+    jest.spyOn(namespace, 'getPropertyByNamespace').mockImplementation(_ => _)
+    jest.spyOn(namespace, 'setPropertyByNamespace').mockImplementation(_ => _)
+
+    const assigner = jest.fn()
+    const mapped = helpers.map(['name'], assigner)
+
+    expect(assigner).toHaveBeenCalledTimes(1)
+    expect(assigner).toHaveBeenCalledWith('name')
+    expect(mapped.hasOwnProperty('name')).toBe(true)
+  })
+
+  test('map accepts object arg (to support aliasing)', () => {
+    jest.spyOn(namespace, 'getPropertyByNamespace').mockImplementation(_ => _)
+    jest.spyOn(namespace, 'setPropertyByNamespace').mockImplementation(_ => _)
+
+    const assigner = jest.fn()
+    const mapped = helpers.map({ alias: 'name' }, assigner)
+
+    expect(assigner).toHaveBeenCalledTimes(1)
+    expect(assigner).toHaveBeenCalledWith('name')
+    expect(mapped.hasOwnProperty('name')).toBe(false)
+    expect(mapped.hasOwnProperty('alias')).toBe(true)
+  })
+
   test('mapState', () => {
     jest.spyOn(namespace, 'getPropertyByNamespace').mockImplementation(_ => _)
     jest.spyOn(namespace, 'setPropertyByNamespace').mockImplementation(_ => _)
