@@ -72,6 +72,10 @@ export default async function NuxtStatorPlugin (context, inject) {
 
   context.app.stator = stator
 
+  context.$state = stator.$state
+  context.$getters = stator.$getters
+  context.$actions = stator.$actions
+
   if (context.ssrContext) {
     context.ssrContext.nuxt.$state = context.$state
   }
