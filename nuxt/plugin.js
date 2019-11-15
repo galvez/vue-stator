@@ -78,8 +78,9 @@ void (function updateModules () {
 })()
 
 // createStore
-export const createStore = store instanceof Function ? store : () => {
+export const createStore = store instanceof Function ? store : (context) => {
   return createStator(Object.assign({
+    context, // vue-stator feature
     strict: (process.env.NODE_ENV !== 'production')
   }, store))
 }
