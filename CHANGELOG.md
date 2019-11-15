@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/galvez/vue-stator/compare/v1.0.0...v1.1.0) (2019-11-15)
+
+
+### Features
+
+* use nuxt vuex module for stator initialization ([b72b62e](https://github.com/galvez/vue-stator/commit/b72b62e583b883fcb87d4858615ecd0cfc267884))
+* **nuxt:** add disableVuex option ([a307f8d](https://github.com/galvez/vue-stator/commit/a307f8dc3b0816cb76e0c1a579c2937afb526c67))
+* support map aliases ([d066f6e](https://github.com/galvez/vue-stator/commit/d066f6ea88c9b60eec11eecfba1bbb9d54301d7a))
+
+
+### Bug Fixes
+
+* pass Nuxt ssrContext into store ([00bb63d](https://github.com/galvez/vue-stator/commit/00bb63d9078528c937ffcfe6990276e183f30a9a))
+
 ## [1.0.0](https://github.com/galvez/vue-stator/compare/v0.0.10...v1.0.0) (2019-11-15)
 
 
