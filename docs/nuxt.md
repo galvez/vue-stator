@@ -27,6 +27,11 @@ _string_ ( default: `store`)
 
 Customise the folder containing your state, actions and getters files
 
+#### `disableVuex`
+_boolean_ ( default: `true`)
+
+Set this to `false` if you want Vuex and vue-stator to be both included in your project.
+
 ## Global state
 
 There's only one state tree definition in `vue-stator`.
