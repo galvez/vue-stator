@@ -1,11 +1,14 @@
 import klaw from 'klaw'
 import farmir from 'rimraf'
+import Vue from 'vue'
 
 export { default as getPort } from 'get-port'
 
 export * from './constants'
 export * from './nuxt'
 export * from './browser'
+
+export const waitTick = () => new Promise(resolve => Vue.nextTick(resolve))
 
 export function listPaths (dir, pathsBefore = [], options = {}) {
   const items = []

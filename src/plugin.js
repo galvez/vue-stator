@@ -15,6 +15,7 @@ export function injectStator (Vue, options) {
 export function lazyInject (Vue, key, setter) {
   Vue.use(() => {
     const propertyName = `$${key}`
+
     if (Vue.prototype.hasOwnProperty(propertyName)) {
       return
     }

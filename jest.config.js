@@ -15,7 +15,7 @@ module.exports = {
 
   moduleNameMapper: {
     '~(.*)$': '<rootDir>/src$1',
-    'test-utils(.*)$': '<rootDir>/test/utils$1'
+    '^test-utils(.*)$': '<rootDir>/test/utils$1'
   },
 
   transform: {
