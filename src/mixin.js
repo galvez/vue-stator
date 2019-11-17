@@ -1,7 +1,7 @@
 import { mapState, mapGetters, mapActions } from './helpers'
 import { callIfFunction } from './utils'
 
-function assignComponentOption (option, mapper, mapping, omitNamespace, namespace) {
+export function assignComponentOption (option, mapper, mapping, omitNamespace, namespace) {
   const createNamespace = key => `${namespace || ''}${namespace && key ? '/' : ''}${key || ''}`
 
   if (Array.isArray(mapping)) {

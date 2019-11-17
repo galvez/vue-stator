@@ -168,12 +168,12 @@ export function registerGetters (store, { state, getters: parent }, getters) {
     }
 
     Object.defineProperty(parent, key, {
-      get: () => getters[key](state, store.$getters, store.$state)
+      get: () => getters[key](state, parent, store.$state, store.$getters)
     })
   }
 }
 
-export function registerActions (context, { state, actions: parent }, actions) {
+export function registerActions (context, { state, getters, actions: parent }, actions) {
   if (!actions) {
     return
   }
@@ -184,9 +184,18 @@ export function registerActions (context, { state, actions: parent }, actions) {
       continue
     }
 
+    const ctx = {
+      ...context,
+      state,
+      rootState: context.$state,
+      getters,
+      rootGetters: context.$getters,
+      actions: parent
+    }
+
     // TODO: why no arrow fn here? do we need this context?
     parent[key] = function (...args) {
-      return actions[key](context, state, ...args)
+      return actions[key](ctx, ...args)
     }
   }
 }
