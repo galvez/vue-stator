@@ -76,7 +76,7 @@ export default function createApp () {
           }
         },
         actions: {
-          update (_, state, user) {
+          update ({ state }, user) {
             Object.assign(state, user)
           }
         }

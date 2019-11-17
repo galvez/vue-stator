@@ -1,3 +1,3 @@
-export function update (_, state, user) {
+export function update ({ state }, user) {
   Object.assign(state, user)
 }
