@@ -1,4 +1,5 @@
 import { mapState, mapGetters, mapActions } from './helpers'
+import { callIfFunction } from './utils'
 
 function assignComponentOption (option, mapper, mapping, omitNamespace, namespace) {
   const createNamespace = key => `${namespace || ''}${namespace && key ? '/' : ''}${key || ''}`
@@ -55,10 +56,12 @@ function assignComponentOption (option, mapper, mapping, omitNamespace, namespac
 
 export default {
   beforeCreate () {
-    const mapping = this.$options.statorMap
+    let mapping = this.$options.statorMap
     if (!mapping) {
       return
     }
+
+    mapping = callIfFunction(mapping)
 
     const omitNamespace = !('omitNamespace' in mapping) || mapping.omitNamespace
 
