@@ -112,6 +112,57 @@ You have access to everything directly in Vue's context though.
 
 That is, you can just reference `$state.something` in your Vue template and it'll work.
 
+### statorMap component option
+
+You can enable a mixin helper by passing `{ mixin: true }` to your plugin options. Instead of calling `mapState` etc in your components you can now just add a `statorMap` option in your component:
+
+```js
+// App.vue
+Vue.use(VueStator, { mixin: true })
+
+// my-component.vue
+<script>
+export default {
+  statorMap: {
+    // omitting the namespace is the default behaviour
+    // set this to false if you dont want to omit the namespace,
+    // then the properties will be available as: this['my/module/nonAliasedKey']
+    //omitNamespace: true,
+    state: {
+      my: {
+        module: {
+          nonAliasedKey: true,
+          aliasedKey: 'theModuleKey'
+        }
+    },
+    getters: [
+      'rootGetter',
+      'my/module/myGetter'
+    ],
+    actions: ['myAction']
+  },
+  mounted () {
+    this.nonAliasedKey
+    this.aliasedKey
+    this.rootGetter
+    this.myGetter
+    this.myAction()
+  }
+}
+</script>
+```
+
+You can also use a function for `statorMap` in case you need to eg map different state for eg Server-side or Client-side
+
+```js
+  statorMap() {
+    if (process.client) {
+      return { ... }
+    }
+    return { ... }
+  }
+```
+
 ## Runtime helpers
 
 `vue-stator` also provides some helper methods to interact with the store more easily.

@@ -71,7 +71,7 @@ export default {
 
     injectStator(Vue, options)
 
-    if (!options || !options.disableMixin) {
+    if (options && options.mixin) {
       Vue.mixin(mixin)
     }
   }
