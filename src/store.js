@@ -187,9 +187,7 @@ export function registerActions (context, { state, getters, actions: parent }, a
     const ctx = {
       ...context,
       state,
-      rootState: context.$state,
       getters,
-      rootGetters: context.$getters,
       actions: parent
     }
 

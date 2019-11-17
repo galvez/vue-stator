@@ -29,13 +29,13 @@ making them look like mutations if needed.
 Say you have a `store/actions.js` file defining global actions:
 
 ```js
-export function myAction ({ $state, $actions }, param) {
-  $state.param = param // mutates!
-  $actions.otherAction()
+export function myAction ({ state, actions }, param) {
+  state.param = param // mutates!
+  actions.otherAction()
 }
 
-export function otherAction ({ $state }, param) {
-  $state.paramDoubled = param * 2 // mutates!
+export function otherAction ({ state }, param) {
+  state.paramDoubled = param * 2 // mutates!
 }
 ```
 
@@ -53,15 +53,28 @@ Still, the ability to group actions and getters by a `key` is convenient.
 `vue-stator` fully supports module syntax which can define their own state, getters
 and/or actions.
 
-In practice, this just means you can define **module actions** that take
-**three arguments**, where the second argument is a convenience reference to
-the state key corresponding to the module.
+In practice, this just means you can define **module actions** where the first
+argument is a context object containing:
+- _state_: the state for the current vue-stator module
+- _$state_: the root state of the store
+- _getter_: the getters for the current vue-stator module
+- _$getters_: the root getters of the store
+- _actions_: the ctions for the current vue-stator module
+- _$actions_: the root ctions of the store
+
+It will also list all properties that you passed to the context option of the plugin option
 
 ```js
 import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
+  context: {
+    suchWow () {
+      return 'much fun'
+    }
+  },
   state: () => ({
+    rootKey: 'a',
     auth: {
       user: null,
       loggedIn: false
@@ -70,9 +83,11 @@ Vue.use(VueStator, {
   modules: {
     auth: {
       actions: {
-        login (ctx, state, user) {
+        login ({ state, $state, suchWow }, user) {
           state.user = user
           state.loggedIn = false
+
+          $state.rootKey = suchWow()
         }
       }
     }
@@ -80,13 +95,10 @@ Vue.use(VueStator, {
 }
 ```
 
-Notice how `state` is a direct reference to `$state.auth`. The first argument
-(`ctx`) gives you access to `$state` (global), `$actions` and `$getters`. So,
-to recap:
+Again notice how `state` is a direct reference to `$state.auth`, to recap:
 
-- `$state` _available in_ the first argument: **the root state**
-- `state` _passed as_ the second argument: **the state key that matches the
-module namespace**
+- `$state` is the **the root state**
+- `state` (without leading `$` is **the state key that matches the module namespace**
 
 In Nuxt.js, the first argument also gives you access to everything available in
 Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
@@ -206,7 +218,7 @@ To dynamically unregister a store module
   }
 ```
 
-## Global getters
+## Getters
 
 In a further effort to make transition from Vuex, modularized getters are
 available in a similar fashion. The arguments passed to getter functions have
@@ -225,8 +237,20 @@ Vue.use(VueStator, {
   modules: {
     user: {
       getters: {
-        fullName (state) {
-          return `${state.firstName} ${state.lastName}`
+        isFirstNameValid: state => state.firstName.length > 0,
+        isLastNameValid: state => state.lastName.length > 0,
+        isValid: (_, getters) => getters.isFirstNameValid && getters.isLastNameValid,
+        fullName (state, getters, rootState, rootGetters) {
+          if (getters.isValid) {
+            return `${state.firstName} ${state.lastName}`
+          }
+
+          /* below is for example purposes only, you dont need to use the root keys here */
+          if (rootGetters.user.isFirstNameValid) {
+            return rootState.user.firstName
+          }
+
+          return state.lastName
         }
       }
     }
