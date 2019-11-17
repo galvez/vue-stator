@@ -18,7 +18,7 @@ describe('store', () => {
         }
       },
       actions: {
-        setName (_, state, newName) {
+        setName ({ state }, newName) {
           state.name = newName
         }
       }
@@ -68,7 +68,7 @@ describe('store', () => {
             }
           },
           actions: {
-            setName (_, state, newName) {
+            setName ({ state }, newName) {
               state.name = newName
             }
           }
@@ -106,7 +106,7 @@ describe('store', () => {
         }
       },
       actions: {
-        setName (_, state, newName) {
+        setName ({ state }, newName) {
           state.name = newName
         }
       }
@@ -140,7 +140,7 @@ describe('store', () => {
         }
       },
       actions: {
-        setName (_, state, newName) {
+        setName ({ state }, newName) {
           state.name = newName
         }
       }
@@ -199,7 +199,7 @@ describe('store', () => {
         name: 'test'
       },
       actions: {
-        setName (_, state, newName) {
+        setName ({ state }, newName) {
           state.name = newName
         }
       }
@@ -230,10 +230,10 @@ describe('store', () => {
             lastName: 'last'
           },
           actions: {
-            setFirstName (_, state, newName) {
+            setFirstName ({ state }, newName) {
               state.firstName = newName
             },
-            setLastName (_, state, newName) {
+            setLastName ({ state }, newName) {
               state.lastName = newName
             }
           }

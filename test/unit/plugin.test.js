@@ -2,7 +2,7 @@ import plugin, * as injects from '~/plugin'
 import * as store from '~/store'
 
 describe('plugin', () => {
-  test('does not install twice', () => {
+  test('does not install twice or mixin', () => {
     class VueTest {}
     VueTest.use = jest.fn()
     VueTest.mixin = jest.fn()
@@ -11,6 +11,18 @@ describe('plugin', () => {
     expect(VueTest.use).toHaveBeenCalledTimes(1)
     plugin.install(VueTest)
     expect(VueTest.use).toHaveBeenCalledTimes(1)
+    expect(VueTest.mixin).not.toHaveBeenCalled()
+  })
+
+  test('installs mixin when configured', () => {
+    class VueTest {}
+    VueTest.use = jest.fn()
+    VueTest.mixin = jest.fn()
+
+    plugin.install(VueTest, { mixin: true })
+    expect(VueTest.mixin).toHaveBeenCalledTimes(1)
+    plugin.install(VueTest, { mixin: true })
+    expect(VueTest.mixin).toHaveBeenCalledTimes(1)
   })
 })
 
