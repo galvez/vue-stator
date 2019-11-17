@@ -1,4 +1,5 @@
 import { createStore } from './store'
+import mixin from './mixin'
 
 export const injectedPropertyName = 'stator'
 
@@ -69,5 +70,9 @@ export default {
     Vue[installKey] = true
 
     injectStator(Vue, options)
+
+    if (!options || !options.disableMixin) {
+      Vue.mixin(mixin)
+    }
   }
 }
