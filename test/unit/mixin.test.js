@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { mount, createLocalVue } from '@vue/test-utils'
-import * as helpers from '~/helpers'
 import plugin from '~/plugin'
 
 describe('reactivity', () => {
@@ -57,8 +56,7 @@ describe('reactivity', () => {
         ],
         actions: ['myAction']
       },
-      template: '<p>{{ test }}</p>',
-      computed: helpers.mapState('test')
+      template: '<p>test</p>'
     }
 
     const wrapper = mount(Component, { localVue })
@@ -115,8 +113,7 @@ describe('reactivity', () => {
         },
         getters: ''
       },
-      template: '<p>{{ test }}</p>',
-      computed: helpers.mapState('test')
+      template: '<p>test</p>'
     }
 
     const wrapper = mount(Component, { localVue })
