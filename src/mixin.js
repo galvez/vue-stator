@@ -10,7 +10,6 @@ function assignComponentOption (option, mapper, mapping, omitNamespace, namespac
       namespacedMapping = mapping.map(createNamespace)
     } else {
       namespacedMapping = {}
-
       for (const key of mapping) {
         namespacedMapping[key] = createNamespace(key)
       }
@@ -39,11 +38,14 @@ function assignComponentOption (option, mapper, mapping, omitNamespace, namespac
       continue
     }
 
-    if (mapping[key]) {
-      aliasedMapping = aliasedMapping || {}
-      const aliasedKey = omitNamespace ? key : createNamespace(key)
-      aliasedMapping[aliasedKey] = createNamespace(mapping[key] === true ? aliasedKey : mapping[key])
+    if (!mapping[key]) {
+      // ignore values with falsy value
+      continue
     }
+
+    aliasedMapping = aliasedMapping || {}
+    const aliasedKey = omitNamespace ? key : createNamespace(key)
+    aliasedMapping[aliasedKey] = createNamespace(mapping[key] === true ? aliasedKey : mapping[key])
   }
 
   if (aliasedMapping) {
@@ -61,8 +63,6 @@ export default {
     const omitNamespace = !('omitNamespace' in mapping) || mapping.omitNamespace
 
     for (const type in mapping) {
-      const typeMapping = mapping[type]
-
       let optionKey
       let mapper
 
@@ -71,7 +71,7 @@ export default {
         mapper = mapActions
       } else {
         optionKey = 'computed'
-        mapper = type === 'state' ? mapState : mapGetters
+        mapper = type === 'getters' ? mapGetters : mapState
       }
 
       this.$options[optionKey] = this.$options[optionKey] || {}
@@ -79,7 +79,7 @@ export default {
       assignComponentOption(
         this.$options[optionKey],
         mapper,
-        typeMapping,
+        mapping[type],
         omitNamespace
       )
     }
