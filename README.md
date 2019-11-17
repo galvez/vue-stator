@@ -98,7 +98,7 @@ Vue.use(VueStator, {
 Again notice how `state` is a direct reference to `$state.auth`, to recap:
 
 - `$state` is the **the root state**
-- `state` (without leading `$` is **the state key that matches the module namespace**
+- `state` (without leading `$`) is **the state key that matches the module namespace**
 
 In Nuxt.js, the first argument also gives you access to everything available in
 Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
