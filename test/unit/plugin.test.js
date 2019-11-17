@@ -5,6 +5,7 @@ describe('plugin', () => {
   test('does not install twice', () => {
     class VueTest {}
     VueTest.use = jest.fn()
+    VueTest.mixin = jest.fn()
 
     plugin.install(VueTest)
     expect(VueTest.use).toHaveBeenCalledTimes(1)
