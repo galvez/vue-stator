@@ -104,7 +104,7 @@ Because vue-stator runs as a Nuxt.js module and there is no way to hook into Nux
 ### Race condition due to plugin order
 
 The reason we use `Vue.nextTick().then` in the example above is to overcome an issue due to the order in which plugins are loaded.
-We can only inject a property when that property has already bene injected by its corresponding plugin. `Vue.nextTick().then` runs _after_ all the plugin methods have been called.
+We can only inject a property when that property has already been injected by its corresponding plugin. `Vue.nextTick().then` runs _after_ all the plugin methods have been called.
 
 > Note: providing a callback to _Vue.nextTick(callback)_ wont work, we need to use a Promise
 
