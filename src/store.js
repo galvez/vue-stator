@@ -166,18 +166,18 @@ export function registerActions (store, { state, getters, actions: parent }, act
     return
   }
 
+  // We dont add the root state here, they can already be accessed through
+  // this.$state and not adding it here is a small perf benefit
+  const ctx = {
+    state,
+    getters,
+    actions: parent
+  }
+
   for (const key in actions) {
     if (typeof actions[key] !== 'function') {
       // TODO: huh, why are we here?
       continue
-    }
-
-    // We dont add the root state here, they can already be accessed through
-    // this.$state and not adding it here is a small perf benefit
-    const ctx = {
-      state,
-      getters,
-      actions: parent
     }
 
     parent[key] = (...args) => actions[key].call(store, ctx, ...args)
