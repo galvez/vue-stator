@@ -52,6 +52,16 @@ export function startBrowser ({ folder, port, globalName = 'nuxt', extendPage = 
             query: window.$nuxt.$route.query
           }))
         },
+        stator (prop) {
+          /* eslint-disable no-console */
+          return page.runScript((prop, globalName) => {
+            const stator = window[globalName].$stator
+            if (prop) {
+              return stator ? stator[prop] : undefined
+            }
+            return stator
+          }, prop, globalName)
+        },
         ...extendPage
       }
     }

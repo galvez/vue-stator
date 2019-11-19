@@ -6,7 +6,6 @@ import { callIfFunction } from './utils'
 
 export function createStore ({
   state,
-  context,
   hydrate,
   actions,
   getters,
@@ -43,14 +42,7 @@ export function createStore ({
     }
   }
 
-  context = context || {}
-  context.$stator = store
-
-  context.$state = store.$state
-  context.$getters = store.$getters
-  context.$actions = store.$actions
-
-  register(context, {
+  register(store, {
     state: store.$state,
     getters: store.$getters,
     actions: store.$actions
@@ -65,11 +57,9 @@ export function createStore ({
 
 // Registration helpers
 
-export function register (context, parent, { getters, actions, modules }, isRoot) {
-  const store = context.$stator || context
-
+export function register (store, parent, { getters, actions, modules }, isRoot) {
   registerGetters(store, parent, getters)
-  registerActions(context, parent, actions)
+  registerActions(store, parent, actions)
 
   if (!modules) {
     return
@@ -80,22 +70,21 @@ export function register (context, parent, { getters, actions, modules }, isRoot
     // TODO: should we order moduleNames by length? Cause now the user needs
     // to register the module 'user' before 'user/profile'
     if (isRoot && moduleName.includes(namespaceSeparator)) {
-      registerModule(context, moduleName, modules[moduleName])
+      registerModule(store, moduleName, modules[moduleName])
       continue
     }
 
-    registerModule(context, parent, modules[moduleName], moduleName)
+    registerModule(store, parent, modules[moduleName], moduleName)
   }
 }
 
-export function registerModule (context, parent, module, moduleName) {
+export function registerModule (store, parent, module, moduleName) {
   // for supporting runtime module registration
   if (typeof parent === 'string') {
     parent = parent.split(namespaceSeparator)
   }
 
   if (Array.isArray(parent)) {
-    const store = context.$stator || context
     moduleName = moduleName || parent.pop()
     parent = getModuleByNamespace(store, parent)
   }
@@ -119,10 +108,10 @@ export function registerModule (context, parent, module, moduleName) {
     }
   }
 
-  register(context, moduleParent || parent, module)
+  register(store, moduleParent || parent, module)
 }
 
-export function unregisterModule (context, parent) {
+export function unregisterModule (store, parent) {
   if (typeof parent === 'string') {
     parent = parent.split(namespaceSeparator)
   }
@@ -132,7 +121,6 @@ export function unregisterModule (context, parent) {
     return
   }
 
-  const store = context.$stator || context
   const moduleName = parent.pop()
   parent = getModuleByNamespace(store, parent)
 
@@ -173,7 +161,7 @@ export function registerGetters (store, { state, getters: parent }, getters) {
   }
 }
 
-export function registerActions (context, { state, getters, actions: parent }, actions) {
+export function registerActions (store, { state, getters, actions: parent }, actions) {
   if (!actions) {
     return
   }
@@ -192,6 +180,6 @@ export function registerActions (context, { state, getters, actions: parent }, a
       actions: parent
     }
 
-    parent[key] = (...args) => actions[key].call(context, ctx, ...args)
+    parent[key] = (...args) => actions[key].call(store, ctx, ...args)
   }
 }

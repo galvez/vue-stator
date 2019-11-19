@@ -16,7 +16,10 @@ export default function NuxtStatorModule (options) {
 
   this.addPlugin({
     src: path.resolve(__dirname, 'plugin.js'),
-    fileName: 'vue-stator.js'
+    fileName: 'vue-stator.js',
+    options: {
+      inject: options.inject
+    }
   })
 
   let statorModules

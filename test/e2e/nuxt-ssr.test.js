@@ -47,6 +47,10 @@ describe('basic', () => {
 
     expect(await page.getText('.state')).toBe(nav ? '456' : '123')
     expect(await page.getText('.getter')).toBe('Jonas Galvez')
+
+    expect(await page.stator('$firstInjection')).toBe('first')
+    // expect(await page.stator('$secondInjection')).toBe('second')
+    expect(await page.stator('$axios')).toBeUndefined()
   }
 
   async function testAbout (nav) {
