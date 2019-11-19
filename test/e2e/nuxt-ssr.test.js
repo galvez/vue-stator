@@ -50,7 +50,7 @@ describe('basic', () => {
 
     expect(await page.stator('$firstInjection')).toBe('first')
     // expect(await page.stator('$secondInjection')).toBe('second')
-    expect(await page.stator('$axios')).toBeUndefined()
+    expect(await page.stator('$axios')).toBeFalsy()
   }
 
   async function testAbout (nav) {
