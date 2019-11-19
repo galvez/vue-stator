@@ -18,6 +18,7 @@ export default function NuxtStatorModule (options) {
     src: path.resolve(__dirname, 'plugin.js'),
     fileName: 'vue-stator.js',
     options: {
+      mixin: !!options.mixin,
       inject: options.inject
     }
   })

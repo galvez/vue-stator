@@ -43,6 +43,11 @@ The inject method will receive three arguments: the store, the Nuxt.js context a
 
 > Note: when providing a function this function will be serialized in to the plugin template. This means you cannot use variables outside of its own scope (hence why Vue is provided as 3rd arg)
 
+#### `mixin`
+_boolean_ ( default: `false`)
+
+Set this to true to enable the [`statorMap`](/galvez/vue-stator/#statormap-component-option) component option
+
 ## Global state
 
 There's only one state tree definition in `vue-stator`.

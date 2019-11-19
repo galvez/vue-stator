@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import {
+  <% if (options.mixin) { %>mixin as VueStatorMixin,<% } %>
   plugin as VueStator,
   createStore as createStator
 } from 'vue-stator'
 
 Vue.use(VueStator)
+<% if (options.mixin) { %>Vue.mixin(VueStatorMixin)<% } %>
 
 export default function NuxtStatorPlugin (context) {
   const stator = createStore()
