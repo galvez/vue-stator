@@ -6,10 +6,12 @@ import {
 
 Vue.use(VueStator)
 
-export default function NuxtStatorPlugin (context, inject) {
-  const stator = createStore(context)
+export default function NuxtStatorPlugin (context) {
+  const stator = createStore()
 
+  // vue-stator already gets injected into Vue by the plugin above
   context.app.stator = stator
+  context.$stator = stator
 
   context.$state = stator.$state
   context.$getters = stator.$getters
@@ -18,6 +20,25 @@ export default function NuxtStatorPlugin (context, inject) {
   if (context.ssrContext) {
     context.ssrContext.nuxt.$state = context.$state
   }
+
+  <% if (typeof options.inject === 'function') { %>
+  (<%= serializeFunction(options.inject) %>)(stator, context, Vue)
+  <% } else if (Array.isArray(options.inject)) { %>
+  // To avoid a race condition / plugin loading order issue we need to
+  // use a Promise here, if we pass a callback to nextTick the callback
+  // is triggered before other plugins have ran
+  Vue.nextTick().then(() => {
+    <% options.inject.forEach(property => {
+      if (property[0] !== '$') {
+        property = `$${property}`
+      }
+    %>
+    if (context.<%= property %>) {
+      stator.<%= property %> = context.<%= property %>
+    }
+    <% }) %>
+  })
+  <% } %>
 }
 
 <%
@@ -63,7 +84,8 @@ void (function updateModules () {
   resolveStoreModules(require('<%= relativeToBuild(srcDir, dir.stator, s.src) %>'), '<%= s.src %>')<% }}) %>
 
   // If the environment supports hot reloading...
-  <% if (isDev) { %>
+  // TODO: fix hmr
+  <% if (false && isDev) { %>
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([<% storeModules.forEach(s => { %>
@@ -78,9 +100,8 @@ void (function updateModules () {
 })()
 
 // createStore
-export const createStore = store instanceof Function ? store : (context) => {
+export const createStore = store instanceof Function ? store : () => {
   return createStator(Object.assign({
-    context, // vue-stator feature
     strict: (process.env.NODE_ENV !== 'production')
   }, store))
 }

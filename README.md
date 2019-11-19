@@ -39,9 +39,9 @@ export function otherAction ({ state }, param) {
 }
 ```
 
-The first parameter is the context (which can be a Vue.js instance or the Nuxt.js
-context object). You can use it to access the global `$state`, `$actions` and
-`$getters`, and in the case of Nuxt.js, also everything in its own context.
+The first argument is the local module context, the store object itself (and root state/getters/actions) is accessible
+from the `this` value within the action. This means that if you need to access the
+global `$state`, `$actions` or `$getters` you can access them using eg `this.$state`
 
 ## Unified state and modularization
 
@@ -55,24 +55,14 @@ and/or actions.
 
 In practice, this just means you can define **module actions** where the first
 argument is a context object containing:
-- _state_: the state for the current vue-stator module
-- _$state_: the root state of the store
-- _getter_: the getters for the current vue-stator module
-- _$getters_: the root getters of the store
-- _actions_: the ctions for the current vue-stator module
-- _$actions_: the root ctions of the store
-
-It will also list all properties that you passed to the context option of the plugin option
+- _state_: the state for the current vue-stator module or the root state
+- _getter_: the getters for the current vue-stator module or the root getters
+- _actions_: the ctions for the current vue-stator module or the root actions
 
 ```js
 import { plugin as VueStator } from 'vue-stator'
 
 Vue.use(VueStator, {
-  context: {
-    suchWow () {
-      return 'much fun'
-    }
-  },
   state: () => ({
     rootKey: 'a',
     auth: {
@@ -83,11 +73,11 @@ Vue.use(VueStator, {
   modules: {
     auth: {
       actions: {
-        login ({ state, $state, suchWow }, user) {
+        login ({ state }, user) {
           state.user = user
           state.loggedIn = false
 
-          $state.rootKey = suchWow()
+          this.$state.rootKey = 'b'
         }
       }
     }
@@ -97,12 +87,12 @@ Vue.use(VueStator, {
 
 Again notice how `state` is a direct reference to `$state.auth`, to recap:
 
-- `$state` is the **the root state**
-- `state` (without leading `$`) is **the state key that matches the module namespace**
+- The `state` property of the first argument is **the state key that matches the module namespace**
+- `this.$state` is the **the root state**
 
-In Nuxt.js, the first argument also gives you access to everything available in
-Nuxt's context, such as `$axios` if you're using `@nuxtjs/axios` or `$http` if
-using `@nuxt/http`.
+In Nuxt.js if you need to access properties from the Nuxt content (e.g. _$axios_ or _$http_),
+then you need to provide the `inject` module option in your `nuxt.config`. See
+our [Nuxt.js docs](./docs/nuxt.md#injecting-properties-into-the-store) for more information
 
 > **Beware**: in Vuex, dispatching actions will always return a `Promise`.
 >
