@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0-beta.0](https://github.com/galvez/vue-stator/compare/v1.1.1...v1.2.0-beta.0) (2019-11-19)
+
+
+### Features
+
+* add mixin for real ([f0b0b1b](https://github.com/galvez/vue-stator/commit/f0b0b1bae7153892fff209985cc7f7f152142923))
+* add mixin to map state by component option ([f6d9809](https://github.com/galvez/vue-stator/commit/f6d98091e5bdc1689fafc39f8f93cf2021cc4e66))
+* allow statorMap to be a function ([5e32620](https://github.com/galvez/vue-stator/commit/5e326203d5684485749c9757e973532656601484))
+
+
+### Bug Fixes
+
+* use similar fingerprints as Vuex for getters/actions ([3d6fd1e](https://github.com/galvez/vue-stator/commit/3d6fd1ec6c0db08ec5bfa96db2305313e0c403e7))
+
 ### [1.1.1](https://github.com/galvez/vue-stator/compare/v1.1.0...v1.1.1) (2019-11-15)
 
 
