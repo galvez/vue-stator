@@ -86,7 +86,7 @@ In a Nuxt.js application with a Vuex-store, Nuxt.js will create the store before
 
 Because vue-stator runs as a Nuxt.js module and there is no way to hook into Nuxt.js's inject method, you need to manually configure which properties you wish to inject into the store
 
-```js`
+```js
   buildModules: [{
     src: 'vue-stator/nuxt',
     options: {
