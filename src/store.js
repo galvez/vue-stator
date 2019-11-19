@@ -184,16 +184,14 @@ export function registerActions (context, { state, getters, actions: parent }, a
       continue
     }
 
+    // We dont add the root state here, they can already be accessed through
+    // this.$state and not adding it here is a small perf benefit
     const ctx = {
-      ...context,
       state,
       getters,
       actions: parent
     }
 
-    // TODO: why no arrow fn here? do we need this context?
-    parent[key] = function (...args) {
-      return actions[key](ctx, ...args)
-    }
+    parent[key] = (...args) => actions[key].call(context, ctx, ...args)
   }
 }
