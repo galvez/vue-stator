@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { $set, $delete } from './helpers'
 import { namespaceSeparator, getModuleByNamespace } from './namespace'
 import { registerStorage } from './storage'
 import { setWatcher, subscribe } from './watcher'
@@ -23,6 +24,8 @@ export function createStore ({
   }
 
   const store = {
+    $set,
+    $delete,
     $state: Vue.observable(initialState),
     $getters: {},
     $actions: {},
