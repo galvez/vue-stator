@@ -12,7 +12,7 @@ export default function NuxtStatorPlugin (context) {
   const stator = createStore()
 
   // vue-stator already gets injected into Vue by the plugin above
-  context.app.stator = stator
+  context.app.$stator = stator
   context.$stator = stator
 
   context.$state = stator.$state
