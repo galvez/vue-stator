@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/galvez/vue-stator/compare/v1.2.0-beta.0...v1.2.0) (2019-11-22)
+
+
+### Features
+
+* expose / on store instance ([68c4334](https://github.com/galvez/vue-stator/commit/68c433414f53cbd19fccaba1e1265ad7b9df618e))
+
+
+### Bug Fixes
+
+* **nuxt:** add prefix to app. ([69a3d97](https://github.com/galvez/vue-stator/commit/69a3d9732d7588a576be55f3641b319e01761ee0))
+* **nuxt:** allow to enable statorMap mixin as module option ([6f1d6c1](https://github.com/galvez/vue-stator/commit/6f1d6c10a182503133ecdd34b5e1437bc575f186))
+* create module context outside for loop for actions ([91dc6e9](https://github.com/galvez/vue-stator/commit/91dc6e9b47bd66f77b1df17f0ac4c95bd301663e))
+
 ## [1.2.0-beta.0](https://github.com/galvez/vue-stator/compare/v1.1.1...v1.2.0-beta.0) (2019-11-19)
 
 
