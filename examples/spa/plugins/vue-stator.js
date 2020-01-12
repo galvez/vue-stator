@@ -7,7 +7,7 @@ import * as user from '~/store/user'
 Vue.use(VueStator, {
   state,
   getters,
-  actions: { user }
+  modules: { user }
 })
 
 // Note: the `vue-stator/nuxt` module supports SPA mode.

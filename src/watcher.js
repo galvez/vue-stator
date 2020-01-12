@@ -4,12 +4,17 @@ import { getPropertyByNamespace } from './namespace'
 let watcher
 
 export function setWatcher (vm) {
-  watcher = vm
+  watcher = vm || new Vue()
+  return watcher
+}
+
+export function getWatcher () {
+  return watcher
 }
 
 export function subscribe ({ $state }, namespace, callback, vm) {
   if (!watcher) {
-    setWatcher(vm || new Vue())
+    setWatcher(vm)
   }
 
   return watcher.$watch(

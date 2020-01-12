@@ -101,6 +101,16 @@ our [Nuxt.js docs](./docs/nuxt.md#injecting-properties-into-the-store) for more 
 > return `Promise.resolve()` instead. **Or**, you can also simply switch to
 > `async/await` syntax and it will work just fine.
 
+## Vue Devtools
+
+`vue-stator` also has vue devtools integration. You can pass `devtools: false` as store option if you want to disable this. By default the value of Vue.config.devtools is used (which is false in production)
+
+Due to differences between Vuex and vue-stator there are some remarks:
+
+- reverting to a previous state doesnt reset newly added keys after that state
+- getters are shown as an object tree of the modules you use
+
+
 ## Vuex-like helpers
 
 ```js

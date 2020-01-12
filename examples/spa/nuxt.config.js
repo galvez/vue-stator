@@ -7,7 +7,7 @@ export default {
   build: {
     transpile: ['vue-stator'],
     extend (config) {
-      config.resolve.alias['vue-stator'] = resolve(__dirname, '..', '..')
+      config.resolve.alias['vue-stator'] = resolve(__dirname, '..', '..', 'src')
     }
   }
 }

@@ -201,7 +201,7 @@ function getStoreModule (storeModule, namespaces, { isProperty = false } = {}) {
 
   storeModule.modules[namespace] = storeModule.modules[namespace] || {}
   storeModule.modules[namespace].namespaced = true
-  storeModule.modules[namespace].modules = storeModule.modules[namespace].modules || {}
+  storeModule.modules[namespace].modules = storeModule.modules[namespace].modules || (namespaces.length ? {} : null)
 
   return getStoreModule(storeModule.modules[namespace], namespaces, { isProperty })
 }
