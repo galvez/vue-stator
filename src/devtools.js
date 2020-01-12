@@ -65,7 +65,7 @@ function listen (store, state, parentKey = '') {
 
       devtoolHook.emit('vuex:mutation',
         {
-          type: `change`,
+          type: 'change',
           payload: {
             key: fullKey,
             value

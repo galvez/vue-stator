@@ -112,7 +112,7 @@ describe('storage', () => {
     const store = { $state: { name: 'test' } }
     const storageProvider = { getItem: jest.fn() }
 
-    storage.registerStorage(store, [[ storageProvider, ['name'] ]])
+    storage.registerStorage(store, [[storageProvider, ['name']]])
 
     expect(storageProvider.getItem).not.toHaveBeenCalled()
     expect(watcher.subscribe).not.toHaveBeenCalled()

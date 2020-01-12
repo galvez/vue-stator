@@ -33,7 +33,7 @@ describe('helpers', () => {
 
     expect(assigner).toHaveBeenCalledTimes(1)
     expect(assigner).toHaveBeenCalledWith('name')
-    expect(mapped.hasOwnProperty('name')).toBe(true)
+    expect('name' in mapped).toBe(true)
   })
 
   test('map accepts array arg', () => {
@@ -45,7 +45,7 @@ describe('helpers', () => {
 
     expect(assigner).toHaveBeenCalledTimes(1)
     expect(assigner).toHaveBeenCalledWith('name')
-    expect(mapped.hasOwnProperty('name')).toBe(true)
+    expect('name' in mapped).toBe(true)
   })
 
   test('map accepts object arg (to support aliasing)', () => {
@@ -57,8 +57,8 @@ describe('helpers', () => {
 
     expect(assigner).toHaveBeenCalledTimes(1)
     expect(assigner).toHaveBeenCalledWith('name')
-    expect(mapped.hasOwnProperty('name')).toBe(false)
-    expect(mapped.hasOwnProperty('alias')).toBe(true)
+    expect('name' in mapped).toBe(false)
+    expect('alias' in mapped).toBe(true)
   })
 
   test('mapState', () => {

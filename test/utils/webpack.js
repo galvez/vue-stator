@@ -13,7 +13,7 @@ export function buildApp (config) {
       }
 
       if (stats.hasErrors()) {
-        const error = new Error(`webpack compile errors`)
+        const error = new Error('webpack compile errors')
         error.stats = stats
         reject(error)
         return
@@ -62,7 +62,7 @@ export function createConfig ({
     },
     resolve: {
       alias: {
-        'vue': 'vue/dist/vue.js',
+        vue: 'vue/dist/vue.js',
         'vue-stator': process.env.NODE_ENV === 'development' ? srcDir : 'vue-stator'
       }
     },
