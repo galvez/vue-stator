@@ -154,7 +154,10 @@ export function registerState ({ state: parent }, namespace, { state }) {
 
   // TODO: check if not fn on ssr and print warning?
   // TODO: what about hook so users can manually clone the state here?
-  Vue.set(parent, namespace, callIfFunction(state))
+  // only set state if not existing (state could be hydrated)
+  if (!parent[namespace]) {
+    Vue.set(parent, namespace, callIfFunction(state))
+  }
 
   return parent[namespace]
 }
