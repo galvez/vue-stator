@@ -17,7 +17,7 @@ export function lazyInject (Vue, key, setter) {
   Vue.use(() => {
     const propertyName = `$${key}`
 
-    if (Vue.prototype.hasOwnProperty(propertyName)) {
+    if (propertyName in Vue.prototype) {
       return
     }
 
@@ -47,7 +47,7 @@ export function inject (Vue, propertyName, key) {
 }
 
 export function injectProperty (Vue, propertyName, key) {
-  if (Vue.prototype.hasOwnProperty(key)) {
+  if (key in Vue.prototype) {
     return
   }
 
@@ -62,7 +62,7 @@ export function injectProperty (Vue, propertyName, key) {
 export default {
   install (Vue, options) {
     // Check if plugin not already installed
-    const installKey = `__stator_installed`
+    const installKey = '__stator_installed'
     if (Vue[installKey]) {
       return
     }

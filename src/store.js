@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { useStoreDevtools } from './devtools'
 import { $set, $delete } from './helpers'
 import { namespaceSeparator, getModuleByNamespace } from './namespace'
 import { registerStorage } from './storage'
@@ -11,7 +12,8 @@ export function createStore ({
   actions,
   getters,
   modules,
-  storage
+  storage,
+  devtools
 }, vm) {
   if (vm) {
     setWatcher(vm)
@@ -53,6 +55,11 @@ export function createStore ({
 
   if (storage) {
     registerStorage(store, storage)
+  }
+
+  const useDevtools = devtools !== undefined ? devtools : Vue.config.devtools
+  if (useDevtools) {
+    useStoreDevtools(store)
   }
 
   return store
@@ -101,8 +108,13 @@ export function registerModule (store, parent, module, moduleName) {
     // if parent has getter/action with same
     // name as this module, the module has preference
     // TODO: should we warn about this?
-    parent.getters[moduleName] = {}
-    parent.actions[moduleName] = {}
+    if (module.getters || module.modules) {
+      // TODO: this still adds an empty object when the submodule also doesnt list any getters
+      parent.getters[moduleName] = {}
+    }
+    if (module.actions || module.modules) {
+      parent.actions[moduleName] = {}
+    }
 
     moduleParent = {
       state: moduleState,
@@ -142,7 +154,10 @@ export function registerState ({ state: parent }, namespace, { state }) {
 
   // TODO: check if not fn on ssr and print warning?
   // TODO: what about hook so users can manually clone the state here?
-  Vue.set(parent, namespace, callIfFunction(state))
+  // only set state if not existing (state could be hydrated)
+  if (!parent[namespace]) {
+    Vue.set(parent, namespace, callIfFunction(state))
+  }
 
   return parent[namespace]
 }
@@ -159,6 +174,7 @@ export function registerGetters (store, { state, getters: parent }, getters) {
     }
 
     Object.defineProperty(parent, key, {
+      enumerable: true,
       get: () => getters[key](state, parent, store.$state, store.$getters)
     })
   }

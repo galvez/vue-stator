@@ -55,15 +55,7 @@ const willResolveStoreModules = storeModules.some(s => s.src.indexOf('index.') !
 if (willResolveStoreModules) { %>
 const VUEX_PROPERTIES = ['state', 'getters', 'actions']
 <% } %>
-let store = {
-  // vue-stator feature
-  hydrate: (initialState) => {
-    return process.client
-      ? <%= nuxtOptions.mode === 'spa' ? 'initialState' : 'window.__NUXT__.$state' %>
-      : initialState
-  }
-  // end vue-stator feature
-}
+let store = {}
 
 void (function updateModules () {
   <% storeModules.some(s => {
@@ -104,7 +96,12 @@ void (function updateModules () {
 // createStore
 export const createStore = store instanceof Function ? store : () => {
   return createStator(Object.assign({
-    strict: (process.env.NODE_ENV !== 'production')
+    strict: (process.env.NODE_ENV !== 'production'),
+    hydrate: (initialState) => {
+      return process.client
+        ? <%= nuxtOptions.mode === 'spa' ? 'initialState' : 'window.__NUXT__.$state' %>
+        : initialState
+    }
   }, store))
 }
 
@@ -201,7 +198,7 @@ function getStoreModule (storeModule, namespaces, { isProperty = false } = {}) {
 
   storeModule.modules[namespace] = storeModule.modules[namespace] || {}
   storeModule.modules[namespace].namespaced = true
-  storeModule.modules[namespace].modules = storeModule.modules[namespace].modules || {}
+  storeModule.modules[namespace].modules = storeModule.modules[namespace].modules || (namespaces.length ? {} : null)
 
   return getStoreModule(storeModule.modules[namespace], namespaces, { isProperty })
 }
