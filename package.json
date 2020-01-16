@@ -1,7 +1,7 @@
 {
   "name": "vue-stator",
   "description": "Vuex alternative based on Vue.observable()",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "homepage": "https://github.com/galvez/vue-stator#readme",
   "license": "MIT",
   "repository": {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/galvez/vue-stator/compare/v1.2.0...v1.3.0) (2020-01-16)
+
+
+### Features
+
+* add initial support for vue devtools ([#13](https://github.com/galvez/vue-stator/issues/13)) ([b47bcd3](https://github.com/galvez/vue-stator/commit/b47bcd3d7db8f6fe404dd8488d9b5190e6a3a80f))
+
 ## [1.2.0](https://github.com/galvez/vue-stator/compare/v1.2.0-beta.0...v1.2.0) (2019-11-22)
 
 
