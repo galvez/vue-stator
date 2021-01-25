@@ -57,7 +57,7 @@ In practice, this just means you can define **module actions** where the first
 argument is a context object containing:
 - _state_: the state for the current vue-stator module or the root state
 - _getter_: the getters for the current vue-stator module or the root getters
-- _actions_: the ctions for the current vue-stator module or the root actions
+- _actions_: the actions for the current vue-stator module or the root actions
 
 ```js
 import { plugin as VueStator } from 'vue-stator'
